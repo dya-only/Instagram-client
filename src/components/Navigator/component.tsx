@@ -1,14 +1,14 @@
-import Instagram from "./Items/Instagram.tsx"
-import Home from "./Items/Home.tsx"
-import Search from "./Items/Search.tsx"
-import Explore from "./Items/Explore.tsx"
-import Reels from "./Items/Reels.tsx"
-import Message from "./Items/Message.tsx"
-import Notification from "./Items/Notification.tsx"
-import Create from "./Items/Create.tsx"
-import About from "./Items/About.tsx"
+import Instagram from "../Items/Instagram.tsx"
+import Home from "../Items/Home.tsx"
+import Search from "../Items/Search.tsx"
+import Explore from "../Items/Explore.tsx"
+import Reels from "../Items/Reels.tsx"
+import Message from "../Items/Message.tsx"
+import Notification from "../Items/Notification.tsx"
+import Create from "../Items/Create.tsx"
+import About from "../Items/About.tsx"
 import User from '../../assets/imgs/profile.png'
-import InstagramMini from "./Items/InstagramMini.tsx"
+import InstagramMini from "../Items/InstagramMini.tsx"
 
 export default function Component () {
   return (
