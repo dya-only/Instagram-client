@@ -5,12 +5,12 @@ export default function MainPage () {
   return (
     <div className={'w-screen flex justify-center items-center'}>
       <div className={'w-[600px] h-screen flex flex-col justify-start items-center mt-[45px] mr-20 xs:ml-64 lg:ml-64 md:ml-28 sm:ml-28'}>
-        <div className={'w-full flex justify-start items-center overflow-x-scroll pl-2 pr-8'}>
+        <div className={'w-full h-[100px] flex justify-start items-center overflow-x-scroll pl-1 pr-4'}>
           <Story /><Story /><Story /><Story /><Story /><Story />
           <Story /><Story /><Story /><Story /><Story /><Story />
         </div>
 
-        <div className={'w-full flex flex-col justify-start items-center'}>
+        <div className={'w-full flex flex-col justify-start items-center mt-6'}>
           <Post />
         </div>
       </div>

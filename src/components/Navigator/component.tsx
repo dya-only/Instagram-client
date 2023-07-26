@@ -4,7 +4,7 @@ import Search from "../Items/Search.tsx"
 import Explore from "../Items/Explore.tsx"
 import Reels from "../Items/Reels.tsx"
 import Message from "../Items/Message.tsx"
-import Notification from "../Items/Notification.tsx"
+import Heart from "../Items/Heart.tsx"
 import Create from "../Items/Create.tsx"
 import About from "../Items/About.tsx"
 import User from '../../assets/imgs/profile.png'
@@ -45,7 +45,7 @@ export default function Component () {
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Notification /></span>
+            <span className={'mr-[15px] font-[noto]'}><Heart /></span>
             <p className={'font-[500] text-[16px]'}>알림</p>
           </a>
 
@@ -83,7 +83,7 @@ export default function Component () {
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Notification /></span>
+            <span className={'font-[noto]'}><Heart /></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>

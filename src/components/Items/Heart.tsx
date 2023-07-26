@@ -1,4 +1,4 @@
-export default function Notification () {
+export default function Heart () {
   return (
     <svg aria-label="알림" className="x1lliihq x1n2onr6" color="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" height="24" role="img" viewBox="0 0 24 24" width="24"><title>알림</title>
       <path
