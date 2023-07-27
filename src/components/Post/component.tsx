@@ -1,6 +1,11 @@
 import Menu from "../Items/Menu.tsx"
+import Heart from "../Items/Heart.tsx"
+import Chat from "../Items/Chat.tsx"
+import Message from "../Items/Message.tsx"
+import Bookmark from "../Items/Bookmark.tsx"
 import User from '../../assets/imgs/profile.png'
 import MoreRoses from '../../assets/imgs/moreRoses.jpg'
+import Emoji from "../Items/Emoji.tsx";
 
 export default function Post () {
   return (
@@ -17,9 +22,30 @@ export default function Post () {
       </div>
       <img className={'w-[468px] rounded-md mb-4'} src={MoreRoses} alt={''} />
 
-      <div className={'flex justify-start items-center'}>
+      <div className={'w-full flex justify-between items-center mb-2'}>
+        <div className={'flex items-center'}>
+          <Heart w={40} h={40} />
+          <span className={'w-4'} />
+          <Chat />
+          <span className={'w-4'} />
+          <Message />
+        </div>
 
+        <Bookmark />
       </div>
+
+      <p className={'w-full font-[700] text-[14px] mb-1'}>좋아요 N개</p>
+
+      <div className={'w-full flex justify-start items-start mb-1'}>
+        <p className={'font-[700] text-[15px] mr-2'}>dy4code</p>
+        <p className={'text-[14px]'}>게시물의 설명</p>
+      </div>
+
+      <div className={'w-full flex'}>
+        <textarea className={'w-[98%] h-6 focus:h-12 outline-none border-none text-sm mb-4 resize-none'} placeholder={'댓글 달기...'} />
+        <Emoji w={13} h={13} />
+      </div>
+      <div className={'w-full border-b-[1px] border-gray-300'}></div>
     </div>
   )
 }
