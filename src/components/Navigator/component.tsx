@@ -9,6 +9,7 @@ import Create from "../Items/Create.tsx"
 import About from "../Items/About.tsx"
 import User from '../../assets/imgs/profile.png'
 import InstagramMini from "../Items/InstagramMini.tsx"
+import {Link} from "react-router-dom";
 
 export default function Component() {
   return (
@@ -54,10 +55,10 @@ export default function Component() {
             <p className={'font-[500] text-[16px]'}>만들기</p>
           </a>
 
-          <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
+          <Link className={'flex justify-center items-end ml-2 mb-8'} to={'/profile'}>
             <img className={'w-[24px] mr-[15px] font-[noto]'} src={User} alt=""/>
             <p className={'font-[500] text-[16px]'}>프로필</p>
-          </a>
+          </Link>
         </div>
 
         {/*MD, SM*/}
@@ -90,13 +91,13 @@ export default function Component() {
             <span className={'font-[noto]'}><Create/></span>
           </a>
 
-          <a className={'flex justify-center items-end mb-8'} href={''}>
+          <Link className={'flex justify-center items-end mb-8'} to={'/profile'}>
             <img className={'w-[24px] font-[noto]'} src={User} alt=""/>
-          </a>
+          </Link>
         </div>
       </div>
 
-      <a className={'flex justify-center items-end ml-2 mb-4'} href={''}>
+      <a className={'flex justify-center items-end xs:ml-2 lg:ml-2 md:ml-0 sm:ml-0ㅇ mb-4'} href={''}>
         <span className={'font-[noto]'}><About/></span>
         <p className={'font-[500] text-[16px] ml-[15px] xs:block lg:block md:hidden sm:hidden'}>더보기</p>
       </a>
