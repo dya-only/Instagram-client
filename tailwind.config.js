@@ -8,6 +8,10 @@ export default {
     extend: {},
     fontFamily: {
       'noto': ['Noto Sans KR']
+    },
+    screen: {
+      'mid': '1260px',
+      'sub': '1160px'
     }
   },
   plugins: [],

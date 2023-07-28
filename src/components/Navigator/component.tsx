@@ -10,47 +10,47 @@ import About from "../Items/About.tsx"
 import User from '../../assets/imgs/profile.png'
 import InstagramMini from "../Items/InstagramMini.tsx"
 
-export default function Component () {
+export default function Component() {
   return (
     <nav className={'fixed flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
       <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
-        <div className={'xs:block lg:block md:hidden sm:hidden'}><Instagram /></div>
-        <div className={'xs:hidden lg:hidden md:block sm:block'}><InstagramMini /></div>
+        <div className={'xs:block lg:block md:hidden sm:hidden'}><Instagram/></div>
+        <div className={'xs:hidden lg:hidden md:block sm:block'}><InstagramMini/></div>
 
         {/*XS, LG*/}
         <div className="xs:flex lg:flex md:hidden sm:hidden flex-col items-start">
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Home /></span>
+            <span className={'mr-[15px] font-[noto]'}><Home/></span>
             <p className={'font-[500] text-[16px]'}>홈</p>
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Search /></span>
+            <span className={'mr-[15px] font-[noto]'}><Search/></span>
             <p className={'font-[500] text-[16px]'}>검색</p>
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Explore /></span>
+            <span className={'mr-[15px] font-[noto]'}><Explore/></span>
             <p className={'font-[500] text-[16px]'}>탐색 탭</p>
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Reels /></span>
+            <span className={'mr-[15px] font-[noto]'}><Reels/></span>
             <p className={'font-[500] text-[16px]'}>릴스</p>
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Message /></span>
+            <span className={'mr-[15px] font-[noto]'}><Message/></span>
             <p className={'font-[500] text-[16px]'}>메시지</p>
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Heart /></span>
+            <span className={'mr-[15px] font-[noto]'}><Heart w={24} h={24}/></span>
             <p className={'font-[500] text-[16px]'}>알림</p>
           </a>
 
           <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-            <span className={'mr-[15px] font-[noto]'}><Create /></span>
+            <span className={'mr-[15px] font-[noto]'}><Create/></span>
             <p className={'font-[500] text-[16px]'}>만들기</p>
           </a>
 
@@ -63,31 +63,31 @@ export default function Component () {
         {/*MD, SM*/}
         <div className="xs:hidden lg:hidden md:block sm:block">
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Home /></span>
+            <span className={'font-[noto]'}><Home/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Search /></span>
+            <span className={'font-[noto]'}><Search/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Explore /></span>
+            <span className={'font-[noto]'}><Explore/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Reels /></span>
+            <span className={'font-[noto]'}><Reels/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Message /></span>
+            <span className={'font-[noto]'}><Message/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Heart /></span>
+            <span className={'font-[noto]'}><Heart w={24} h={24}/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
-            <span className={'font-[noto]'}><Create /></span>
+            <span className={'font-[noto]'}><Create/></span>
           </a>
 
           <a className={'flex justify-center items-end mb-8'} href={''}>
@@ -97,7 +97,7 @@ export default function Component () {
       </div>
 
       <a className={'flex justify-center items-end ml-2 mb-4'} href={''}>
-        <span className={'font-[noto]'}><About /></span>
+        <span className={'font-[noto]'}><About/></span>
         <p className={'font-[500] text-[16px] ml-[15px] xs:block lg:block md:hidden sm:hidden'}>더보기</p>
       </a>
     </nav>

@@ -4,8 +4,8 @@ import Chat from "../Items/Chat.tsx"
 import Message from "../Items/Message.tsx"
 import Bookmark from "../Items/Bookmark.tsx"
 import User from '../../assets/imgs/profile.png'
-import MoreRoses from '../../assets/imgs/moreRoses.jpg'
-import Emoji from "../Items/Emoji.tsx";
+import MoreRoses from '../../assets/imgs/template/moreRoses.jpg'
+import Emoji from "../Items/Emoji.tsx"
 
 export default function Post () {
   return (
@@ -20,7 +20,7 @@ export default function Post () {
         </div>
         <Menu />
       </div>
-      <img className={'w-[468px] rounded-md mb-4'} src={MoreRoses} alt={''} />
+      <img className={'w-[468px] rounded-md mb-4 max-h-[600px] object-cover'} src={MoreRoses} alt={''} />
 
       <div className={'w-full flex justify-between items-center mb-2'}>
         <div className={'flex items-center'}>
@@ -45,7 +45,7 @@ export default function Post () {
         <textarea className={'w-[98%] h-6 focus:h-12 outline-none border-none text-sm mb-4 resize-none'} placeholder={'댓글 달기...'} />
         <Emoji w={13} h={13} />
       </div>
-      <div className={'w-full border-b-[1px] border-gray-300'}></div>
+      <div className={'w-full border-b-[1px] border-gray-300'} />
     </div>
   )
 }
