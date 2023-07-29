@@ -15,8 +15,8 @@ export default function Component() {
   return (
     <nav className={'fixed flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
       <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
-        <div className={'xs:block lg:block md:hidden sm:hidden'}><Instagram/></div>
-        <div className={'xs:hidden lg:hidden md:block sm:block'}><InstagramMini/></div>
+        <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'}><Instagram/></Link>
+        <Link className={'xs:hidden lg:hidden md:block sm:block'} to={'/'}><InstagramMini/></Link>
 
         {/*XS, LG*/}
         <div className="xs:flex lg:flex md:hidden sm:hidden flex-col items-start">

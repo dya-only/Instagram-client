@@ -52,13 +52,12 @@ export default function Profile () {
         </div>
 
         <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
-          <img className={'w-[309px] h-[309px] object-cover mr-2'} src={moreRoses} alt={''} />
-          <img className={'w-[309px] h-[309px] object-cover mr-2'} src={StellLive} alt={''} />
-          <img className={'w-[309px] h-[309px] object-cover mr-2'} src={StellLive} alt={''} />
+          <img className={'w-[309px] h-[309px] object-cover mr-2 mb-2'} src={moreRoses} alt={''} />
+          <img className={'w-[309px] h-[309px] object-cover mr-2 mb-2'} src={moreRoses} alt={''} />
+          <img className={'w-[309px] h-[309px] object-cover mr-2 mb-2'} src={StellLive} alt={''} />
+          <img className={'w-[309px] h-[309px] object-cover mr-2 mb-2'} src={StellLive} alt={''} />
         </div>
       </div>
-
-
     </div>
   )
 }

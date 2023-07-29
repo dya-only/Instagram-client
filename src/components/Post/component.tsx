@@ -11,7 +11,7 @@ export default function Post () {
   return (
     <div className={'w-[470px] pt-8 pb-8 flex flex-col items-center'}>
       <div className={'w-[470px] flex justify-between items-center mb-4'}>
-        <div className={'flex justify-start items-center'}>
+        <div className={'flex justify-start items-center cursor-pointer'}>
           <div className={'relative flex justify-center items-center'}>
             <img className={'absolute w-[30px] border-[0.5px] rounded-full'} src={User} alt={''} />
             <div className={'rounded-full w-[32px] h-[32px] border-[1px]'}></div>
@@ -34,10 +34,10 @@ export default function Post () {
         <Bookmark />
       </div>
 
-      <p className={'w-full font-[700] text-[14px] mb-1'}>좋아요 N개</p>
+      <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 N개</p>
 
       <div className={'w-full flex justify-start items-start mb-1'}>
-        <p className={'font-[700] text-[15px] mr-2'}>dy4code</p>
+        <p className={'font-[700] text-[15px] mr-2 cursor-pointer hover:text-gray-400 transition duration-200'}>dy4code</p>
         <p className={'text-[14px]'}>게시물의 설명</p>
       </div>
 
