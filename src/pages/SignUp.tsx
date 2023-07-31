@@ -1,16 +1,18 @@
 import React, {useState} from "react"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 
-export default function Login() {
-  const [user, setUser] = useState({email: '', password: ''})
+export default function SignUp() {
+  const navigate = useNavigate()
+  const [user, setUser] = useState({email: '', name: '', username: '', password: ''})
 
   const getVerify = async () => {
-    axios.post('/api/sign/in', user, {
+    axios.post('/api/sign/up', user, {
       headers: {'Content-Type': 'application/json'}
     }).then(resp => {
       const res = resp.data
-      if (res.status === 200) sessionStorage.setItem('TOKEN', res.accessToken)
+      if (res.status === 200) navigate('/login')
+      else console.log('Err')
     })
   }
 
@@ -25,9 +27,11 @@ export default function Login() {
 
         <div className={'mt-4 mb-4'}/>
 
-        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'전화번호, 사용자 이름 말고 이메일'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, email: e.target.value})} />
+        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'이메일'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, email: e.target.value})} />
+        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'성명'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, name: e.target.value})} />
+        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'사용자 이름'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, username: e.target.value})} />
         <input type="password" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-3 pl-2'} placeholder={'비밀번호'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, password: e.target.value})} />
-        <button className={'w-[268px] h-[32px] rounded-lg text-[15px] font-bold text-white bg-[#6ab3f3] mb-6'} onClick={getVerify}>로그인</button>
+        <button className={'w-[268px] h-[32px] rounded-lg text-[15px] font-bold text-white bg-[#6ab3f3] mb-6'} onClick={getVerify}>가입</button>
 
         <div className={'flex justify-center items-center mb-8'}>
           <div className={'w-[104px] h-[1px] bg-gray-300'}/>

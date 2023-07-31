@@ -1,20 +1,35 @@
-import {Fragment} from "react"
-import {Routes, Route} from "react-router-dom"
-import Component from "./components/Navigator/component.tsx"
+import {useEffect} from "react"
+import {Routes, Route, useNavigate} from "react-router-dom"
 import MainPage from "./pages/MainPage.tsx"
 import Profile from "./pages/Profile.tsx"
 import Login from "./pages/Login.tsx"
+import {authToken} from "./util/AuthToken.ts";
 
 export default function App() {
-  return (
-    <Fragment>
-      <Component/>
+  const navigate = useNavigate()
 
-      <Routes>
-        <Route path={'/'} element={<MainPage />} />
-        <Route path={'/profile'} element={<Profile />} />
-        <Route path={'/login'} element={<Login />} />
-      </Routes>
-    </Fragment>
+  const userVerify = async () => {
+    if (!sessionStorage.getItem('TOKEN')) navigate('/login')
+
+    authToken(sessionStorage.getItem('TOKEN')!)
+      .then(resp => {
+        if (resp!) {
+          console.log(resp)
+        } else {
+          navigate('/login')
+        }
+      })
+  }
+
+  useEffect(() => {
+    userVerify()
+  }, [])
+
+  return (
+    <Routes>
+      <Route path={'/'} element={<MainPage/>}/>
+      <Route path={'/profile'} element={<Profile/>}/>
+      <Route path={'/login'} element={<Login/>}/>
+    </Routes>
   )
 }

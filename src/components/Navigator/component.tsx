@@ -11,11 +11,11 @@ import User from '../../assets/imgs/profile.png'
 import InstagramMini from "../Items/InstagramMini.tsx"
 import {Link} from "react-router-dom";
 
-export default function Component() {
+export default function Navigator() {
   return (
     <nav className={'fixed flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
       <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
-        <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'}><Instagram/></Link>
+        <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'}><Instagram w={103} h={29} /></Link>
         <Link className={'xs:hidden lg:hidden md:block sm:block'} to={'/'}><InstagramMini/></Link>
 
         {/*XS, LG*/}
