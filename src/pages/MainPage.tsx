@@ -1,18 +1,38 @@
-import {Fragment} from "react"
+import {Fragment, useEffect} from "react"
+import {useNavigate} from "react-router-dom"
 import Navigator from '../components/Navigator/component.tsx'
 import Story from "../components/Story/component.tsx"
 import Post from "../components/Post/component.tsx"
 import Recommend from "../components/Recommend/component.tsx"
-import Menu from "../components/Items/Menu.tsx"
-import Heart from "../components/Items/Heart.tsx"
-import Chat from "../components/Items/Chat.tsx"
-import Message from "../components/Items/Message.tsx"
-import Bookmark from "../components/Items/Bookmark.tsx"
-import Emoji from "../components/Items/Emoji.tsx"
+import Menu from "../assets/svgs/Menu.tsx"
+import Heart from "../assets/svgs/Heart.tsx"
+import Chat from "../assets/svgs/Chat.tsx"
+import Message from "../assets/svgs/Message.tsx"
+import Bookmark from "../assets/svgs/Bookmark.tsx"
+import Emoji from "../assets/svgs/Emoji.tsx"
+
 import User from "../assets/imgs/profile.png"
 import StellLive from '../assets/imgs/template/stelllive.jpg'
+import axios from "axios";
 
 export default function MainPage() {
+  const navigate = useNavigate()
+
+  const userVerify = async () => {
+    axios.post('/api/user/verify', { token: sessionStorage.getItem('TOKEN') }, {
+      headers: {'Content-Type': 'application/json'}
+    }).then(resp => {
+      const res = resp.data
+      if (res.status !== 200) navigate('/login')
+    })
+  }
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('TOKEN')) navigate('/login')
+
+    userVerify()
+  }, [])
+
   return (
     <Fragment>
       <Navigator />

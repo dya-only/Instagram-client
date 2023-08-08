@@ -5,7 +5,7 @@ const authToken = async (token: string) => {
     headers: {'Content-Type': 'application/json'}
   }).then(resp => {
     const res = resp.data
-    if (res.status === 200) return res.data
+    if (res.status === 200) return res
   })
 }
 

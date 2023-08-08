@@ -1,11 +1,11 @@
-import Menu from "../Items/Menu.tsx"
-import Heart from "../Items/Heart.tsx"
-import Chat from "../Items/Chat.tsx"
-import Message from "../Items/Message.tsx"
-import Bookmark from "../Items/Bookmark.tsx"
+import Menu from "../../assets/svgs/Menu.tsx"
+import Heart from "../../assets/svgs/Heart.tsx"
+import Chat from "../../assets/svgs/Chat.tsx"
+import Message from "../../assets/svgs/Message.tsx"
+import Bookmark from "../../assets/svgs/Bookmark.tsx"
 import User from '../../assets/imgs/profile.png'
 import MoreRoses from '../../assets/imgs/template/moreRoses.jpg'
-import Emoji from "../Items/Emoji.tsx"
+import Emoji from "../../assets/svgs/Emoji.tsx"
 
 export default function Post () {
   return (

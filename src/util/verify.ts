@@ -9,4 +9,13 @@ const login = async (email: string, password: string) => {
   })
 }
 
-export { login }
+const token = async (token: string) => {
+  axios.post('/api/user/verify', { token }, {
+    headers: {'Content-Type': 'application/json'}
+  }).then(resp => {
+    const res = resp.data
+    if (res.status === 200) return res
+  })
+}
+
+export { login, token }

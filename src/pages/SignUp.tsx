@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 
@@ -16,6 +16,10 @@ export default function SignUp() {
     })
   }
 
+  useEffect(() => {
+    if (sessionStorage.getItem('TOKEN')) navigate('/')
+  }, [])
+
   return (
     <div className={'w-screen h-screen flex flex-col justify-center items-center'}>
       <div className={'flex flex-col items-center border-[1px] border-gray-200 pt-12 pl-12 pr-12 pb-6 mb-4'}>
@@ -27,24 +31,19 @@ export default function SignUp() {
 
         <div className={'mt-4 mb-4'}/>
 
-        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'이메일'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, email: e.target.value})} />
-        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'성명'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, name: e.target.value})} />
-        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-1 pl-2'} placeholder={'사용자 이름'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, username: e.target.value})} />
+        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-[6px] pl-2'} placeholder={'이메일 주소'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, email: e.target.value})} />
+        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-[6px] pl-2'} placeholder={'성명'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, name: e.target.value})} />
+        <input type="text" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-[6px] pl-2'} placeholder={'사용자 이름'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, username: e.target.value})} />
         <input type="password" className={'w-[268px] h-[38px] bg-[#FAFAFA] border-[1px] border-gray-200 rounded-sm text-[12px] placeholder:text-gray-600 mb-3 pl-2'} placeholder={'비밀번호'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser({...user, password: e.target.value})} />
-        <button className={'w-[268px] h-[32px] rounded-lg text-[15px] font-bold text-white bg-[#6ab3f3] mb-6'} onClick={getVerify}>가입</button>
 
-        <div className={'flex justify-center items-center mb-8'}>
-          <div className={'w-[104px] h-[1px] bg-gray-300'}/>
-          <p className={'ml-4 mr-4 text-gray-500 font-semibold text-sm'}>또는</p>
-          <div className={'w-[104px] h-[1px] bg-gray-300'}/>
-        </div>
+        <p className={'text-[12px] w-[268px] mt-1 mb-4 text-gray-600'}>저희 서비스를 이용하는 사람이 회원님의 연락처 정보를 Instagram에 업로드했을 수도 있습니다. <strong className={'text-gray-600'}>더 알아보기</strong></p>
 
-        <div className={'text-[#2a4b77] text-[12px]'}>비밀번호를 잊으셨나요?</div>
+        <button className={'w-[268px] h-[32px] rounded-lg text-[15px] font-bold text-white bg-[#4BB4F8] mb-6'} onClick={getVerify}>가입</button>
       </div>
 
       <div className={'flex justify-center items-center w-[366px] h-[68px] text-[14px] border-[1px] border-gray-200 pl-12 pr-12'}>
-        <Link className={'mr-2'} to={'/signup'}>계정이 없으신가요?</Link>
-        <Link className={'text-blue-500 text-[14px] font-bold cursor-pointer'} to={'/'}>가입하기</Link>
+        <Link className={'mr-2'} to={'/signup'}>계정이 있으신가요?</Link>
+        <Link className={'text-blue-500 text-[14px] font-bold cursor-pointer'} to={'/login'}>로그인</Link>
       </div>
     </div>
   )

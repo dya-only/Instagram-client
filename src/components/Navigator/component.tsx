@@ -1,19 +1,19 @@
-import Instagram from "../Items/Instagram.tsx"
-import Home from "../Items/Home.tsx"
-import Search from "../Items/Search.tsx"
-import Explore from "../Items/Explore.tsx"
-import Reels from "../Items/Reels.tsx"
-import Message from "../Items/Message.tsx"
-import Heart from "../Items/Heart.tsx"
-import Create from "../Items/Create.tsx"
-import About from "../Items/About.tsx"
+import Instagram from "../../assets/svgs/Instagram.tsx"
+import Home from "../../assets/svgs/Home.tsx"
+import Search from "../../assets/svgs/Search.tsx"
+import Explore from "../../assets/svgs/Explore.tsx"
+import Reels from "../../assets/svgs/Reels.tsx"
+import Message from "../../assets/svgs/Message.tsx"
+import Heart from "../../assets/svgs/Heart.tsx"
+import Create from "../../assets/svgs/Create.tsx"
+import About from "../../assets/svgs/About.tsx"
 import User from '../../assets/imgs/profile.png'
-import InstagramMini from "../Items/InstagramMini.tsx"
-import {Link} from "react-router-dom";
+import InstagramMini from "../../assets/svgs/InstagramMini.tsx"
+import {Link} from "react-router-dom"
 
 export default function Navigator() {
   return (
-    <nav className={'fixed flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
+    <nav className={'fixed bg-white z-50 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
       <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
         <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'}><Instagram w={103} h={29} /></Link>
         <Link className={'xs:hidden lg:hidden md:block sm:block'} to={'/'}><InstagramMini/></Link>
