@@ -1,8 +1,8 @@
 import {Fragment, useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
-import {ModalContainer} from "../components/Model/ProfileImg/ModalContainer/component.tsx"
-import {ModalWindow} from "../components/Model/ProfileImg/ModalWindow/component.tsx"
+import {ModalContainer} from "../components/Modal/ProfileImg/ModalContainer/component.tsx"
+import {ModalWindow} from "../components/Modal/ProfileImg/ModalWindow/component.tsx"
 
 import Navigator from "../components/Navigator/component.tsx"
 import Setting from "../assets/svgs/Setting.tsx"
