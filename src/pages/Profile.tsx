@@ -20,7 +20,7 @@ export default function Profile () {
     name: '',
     username: ''
   })
-  // const [pfIMG, setPfIMG] = useState(false)
+  const [ProfileImgModal, setProfileImgModal] = useState(false)
 
   const userVerify = async () => {
     axios.post('/api/user/verify', { token: sessionStorage.getItem('TOKEN') }, {
@@ -44,13 +44,18 @@ export default function Profile () {
       <Navigator />
 
       {/*Modal window*/}
-      <ModalContainer>
-        <ModalWindow />
-      </ModalContainer>
+      { ProfileImgModal ?
+        <ModalContainer>
+          <ModalWindow>
+            <div className={'text-[20px] font-[500] w-full'}>프로필 사진 바꾸기</div>
+            
+          </ModalWindow>
+        </ModalContainer>
+      : null }
 
       <div className={'w-screen flex flex-col items-center'}>
         <div className={'flex justify-center items-center mt-8 ml-24 mb-24'}>
-          <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer'} src={User} alt={''} />
+          <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer'} src={User} alt={''} onClick={() => setProfileImgModal(true)} />
 
           <div>
             <div className={'flex items-center mb-4'}>

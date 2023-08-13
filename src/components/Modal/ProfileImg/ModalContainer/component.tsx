@@ -9,5 +9,5 @@ export const ModalContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  backdrop-filter: brightness(80%);
+  backdrop-filter: brightness(30%);
 `
