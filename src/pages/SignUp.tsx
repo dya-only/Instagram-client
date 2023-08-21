@@ -4,7 +4,7 @@ import axios from "axios"
 
 export default function SignUp() {
   const navigate = useNavigate()
-  const [user, setUser] = useState({email: '', name: '', username: '', password: ''})
+  const [user, setUser] = useState({email: '', name: '', username: '', password: '', profile: '', bookmark: [], like: [], follower: 0, following: 0})
 
   const getVerify = async () => {
     axios.post('/api/sign/up', user, {
