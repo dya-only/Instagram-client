@@ -1,14 +1,14 @@
 import {Fragment, useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
-import {ModalContainer} from "../components/Modal/ProfileImg/ModalContainer/component.tsx"
-import {ModalWindow} from "../components/Modal/ProfileImg/ModalWindow/component.tsx"
+import {ModalContainer} from "../components/Modal/ProfileImg/ModalContainer/component"
+import {ModalWindow} from "../components/Modal/ProfileImg/ModalWindow/component"
 
-import Navigator from "../components/Navigator/component.tsx"
-import Setting from "../assets/svgs/Setting.tsx"
-import ProfileGrid from "../assets/svgs/ProfileGrid.tsx"
-import ProfileBookmark from "../assets/svgs/ProfileBookmark.tsx"
-import ProfileTag from "../assets/svgs/ProfileTag.tsx"
+import Navigator from "../components/Navigator/component"
+import Setting from "../assets/svgs/Setting"
+import ProfileGrid from "../assets/svgs/ProfileGrid"
+import ProfileBookmark from "../assets/svgs/ProfileBookmark"
+import ProfileTag from "../assets/svgs/ProfileTag"
 import User from '../assets/imgs/profile.png'
 import StellLive from '../assets/imgs/template/stelllive.jpg'
 import moreRoses from '../assets/imgs/template/moreRoses.jpg'
@@ -16,20 +16,34 @@ import moreRoses from '../assets/imgs/template/moreRoses.jpg'
 export default function Profile () {
   const navigate = useNavigate()
   const [user, setUser] = useState({
+    id: '',
     email: '',
     name: '',
     username: ''
+  })
+  const [profile, setProfile] = useState({
+    img: '',
+    // bookmark: [],
+    // like: [],
+    follower: 0,
+    following: 0
   })
   const [ProfileImgModal, setProfileImgModal] = useState(false)
 
   const userVerify = async () => {
     axios.post('/api/user/verify', { token: sessionStorage.getItem('TOKEN') }, {
-      headers: {'Content-Type': 'application/json'}
+      headers: { 'Content-Type': 'application/json' }
     }).then(resp => {
       const res = resp.data
       if (res.status !== 200) navigate('/login')
 
-      setUser({ email: res.data.email, name: res.data.name, username: res.data.username })
+      setUser({ id: res.data.id, email: res.data.email, name: res.data.name, username: res.data.username })
+
+      axios.post('/api/user', { _id: res.data.id }, {
+        headers: { 'Content-Type': 'application/json' }
+      }).then(_resp => {
+        setProfile({ img: _resp.data.profile, follower: _resp.data.follower, following: _resp.data.following })
+      })
     })
   }
 
@@ -43,7 +57,7 @@ export default function Profile () {
     <Fragment>
       <Navigator />
 
-      {/*Modal window*/}
+      {/* Modal window */}
       { ProfileImgModal ?
         <ModalContainer>
           <ModalWindow>
@@ -67,8 +81,8 @@ export default function Profile () {
 
             <div className={'flex items-center mb-4'}>
               <p className={'text-[16px] mr-8'}>게시물 <strong>N</strong></p>
-              <p className={'text-[16px] mr-8'}>팔로워 <strong>N</strong></p>
-              <p className={'text-[16px]'}>팔로우 <strong>N</strong></p>
+              <p className={'text-[16px] mr-8'}>팔로워 <strong>{ profile.follower }</strong></p>
+              <p className={'text-[16px]'}>팔로우 <strong>{ profile.following }</strong></p>
             </div>
 
             <p className={'text-[14px] font-[700]'}>{ user.name }</p>
