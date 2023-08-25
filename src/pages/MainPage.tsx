@@ -1,9 +1,9 @@
 import {Fragment, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
-import Navigator from '../components/Navigator/component.tsx'
-import Story from "../components/Story/component.tsx"
-import Post from "../components/Post/component.tsx"
-import Recommend from "../components/Recommend/component.tsx"
+import Navigator from '../components/navigator/component.tsx'
+import Story from "../components/story/component.tsx"
+import Post from "../components/post/component.tsx"
+import Recommend from "../components/recommned/component.tsx"
 // import Menu from "../assets/svgs/Menu.tsx"
 // import Heart from "../assets/svgs/Heart.tsx"
 // import Chat from "../assets/svgs/Chat.tsx"

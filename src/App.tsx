@@ -1,8 +1,8 @@
 import {Routes, Route} from "react-router-dom"
-import MainPage from "./pages/MainPage.tsx"
-import Profile from "./pages/Profile.tsx"
-import Login from "./pages/Login.tsx"
-import SignUp from "./pages/SignUp.tsx"
+import MainPage from "./pages/mainpage.tsx"
+import Profile from "./pages/profile.tsx"
+import Login from "./pages/login.tsx"
+import SignUp from "./pages/signup.tsx"
 
 export default function App() {
   return (

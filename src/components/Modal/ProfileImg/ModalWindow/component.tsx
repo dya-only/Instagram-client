@@ -7,5 +7,6 @@ export const ModalWindow = styled.div`
   height: 223px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 `
