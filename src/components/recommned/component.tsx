@@ -1,7 +1,8 @@
-import User from '../../assets/imgs/profile.png'
 import axios from "axios"
 import {useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom"
+
+import User from '../../assets/imgs/profile.jpg'
 
 export default function Recommend() {
   const navigate = useNavigate()

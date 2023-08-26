@@ -9,6 +9,7 @@ import Setting from "../assets/svgs/Setting"
 import ProfileGrid from "../assets/svgs/ProfileGrid"
 import ProfileBookmark from "../assets/svgs/ProfileBookmark"
 import ProfileTag from "../assets/svgs/ProfileTag"
+import DefaultIMG from '../assets/imgs/profile.jpg'
 
 export default function Profile () {
   const navigate = useNavigate()
@@ -64,14 +65,21 @@ export default function Profile () {
     formData.append('_id', user.id)
 
     axios.patch('/api/user/profile', formData)
-      .then(resp => {
-        console.log(resp)
-      })
+    .then(resp => {
+      console.log(resp)
+    })
   }
 
-  // const useDefault = async () => {
+  const useDefault = async () => {
+    let formData = new FormData()
+    formData.append('file', DefaultIMG)
+    formData.append('_id', user.id)
 
-  // }
+    axios.patch('/api/user/profile', formData)
+    .then(resp => {
+      console.log(resp)
+    })
+  }
 
   useEffect(() => {
     if (!sessionStorage.getItem('TOKEN')) navigate('/login')
@@ -85,7 +93,7 @@ export default function Profile () {
         <ModalContainer>
           <ModalWindow>
             <div className={'w-full h-[80px] text-[20px] font-[500] flex justify-center items-center border-b-[1px] border-b-gray-200'}>프로필 사진 바꾸기</div>
-            <button className={'w-full h-[48px] text-sm font-bold text-red-500 border-b-[1px] border-b-gray-200'}>현재 사진 삭제</button>
+            <button className={'w-full h-[48px] text-sm font-bold text-red-500 border-b-[1px] border-b-gray-200'} onClick={useDefault}>현재 사진 삭제</button>
             <button className={'w-full h-[48px] text-sm font-bold text-blue-500 border-b-[1px] border-b-gray-200'} onClick={() => fileRef.current?.click()}>사진 업로드</button>
             <button className={'w-full h-[48px] text-[14px]'} onClick={() => setProfileImgModal(false)}>취소</button>
 

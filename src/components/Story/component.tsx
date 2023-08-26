@@ -1,4 +1,4 @@
-import Profile from '../../assets/imgs/profile.png'
+import Profile from '../../assets/imgs/profile.jpg'
 
 export default function Story () {
   return (

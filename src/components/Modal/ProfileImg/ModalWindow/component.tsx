@@ -9,4 +9,5 @@ export const ModalWindow = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  animation: sizeDown;
 `

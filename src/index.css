@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -19,4 +18,13 @@
 
 body {
   margin: 0;
+}
+
+@keyframes sizeDown {
+  from {
+    scale: 130%;
+  } 
+  to {
+    scale: 100%;
+  }
 }

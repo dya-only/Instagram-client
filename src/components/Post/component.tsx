@@ -3,9 +3,9 @@ import Heart from "../../assets/svgs/Heart.tsx"
 import Chat from "../../assets/svgs/Chat.tsx"
 import Message from "../../assets/svgs/Message.tsx"
 import Bookmark from "../../assets/svgs/Bookmark.tsx"
-import User from '../../assets/imgs/profile.png'
-import MoreRoses from '../../assets/imgs/template/moreRoses.jpg'
 import Emoji from "../../assets/svgs/Emoji.tsx"
+import User from '../../assets/imgs/profile.jpg'
+import MoreRoses from '../../assets/imgs/template/moreRoses.jpg'
 
 export default function Post () {
   return (

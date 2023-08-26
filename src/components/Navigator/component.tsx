@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react"
+import {Link} from "react-router-dom"
+import axios from "axios"
+
 import Instagram from "../../assets/svgs/Instagram.tsx"
 import Home from "../../assets/svgs/Home.tsx"
 import Search from "../../assets/svgs/Search.tsx"
@@ -7,11 +11,34 @@ import Message from "../../assets/svgs/Message.tsx"
 import Heart from "../../assets/svgs/Heart.tsx"
 import Create from "../../assets/svgs/Create.tsx"
 import About from "../../assets/svgs/About.tsx"
-import User from '../../assets/imgs/profile.png'
 import InstagramMini from "../../assets/svgs/InstagramMini.tsx"
-import {Link} from "react-router-dom"
+import User from '../../assets/imgs/profile.jpg'
 
 export default function Navigator() {
+  const [profile, setProfile] = useState('')
+
+  const userVerify = async () => {
+    // AccessToken verify
+    axios.post('/api/user/verify', { token: sessionStorage.getItem('TOKEN') }, {
+      headers: { 'Content-Type': 'application/json' }
+    }).then(resp => {
+      const res = resp.data
+      if (res.status !== 200) return
+
+      // Get user profile img
+      axios.post('/api/user', { _id: res.data.id }, {
+        headers: { 'Content-Type': 'application/json' }
+      }).then(_resp => {
+        console.log(_resp.data.profile)
+        setProfile(_resp.data.profile)
+      })
+    })
+  }
+
+  useEffect (() => {
+    userVerify()
+  }, [])
+
   return (
     <nav className={'fixed bg-white z-50 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
       <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
@@ -56,7 +83,7 @@ export default function Navigator() {
           </a>
 
           <Link className={'flex justify-center items-end ml-2 mb-8'} to={'/profile'}>
-            <img className={'w-[24px] mr-[15px] font-[noto]'} src={User} alt=""/>
+            <img className={'w-[24px] mr-[15px] font-[noto]'} src={`/api/upload/profile/${profile}`} alt=""/>
             <p className={'font-[500] text-[16px]'}>프로필</p>
           </Link>
         </div>
@@ -92,7 +119,7 @@ export default function Navigator() {
           </a>
 
           <Link className={'flex justify-center items-end mb-8'} to={'/profile'}>
-            <img className={'w-[24px] font-[noto]'} src={User} alt=""/>
+            <img className={'w-[24px] font-[noto]'} src={`/api/upload/profile/${profile}`} alt='' />
           </Link>
         </div>
       </div>
