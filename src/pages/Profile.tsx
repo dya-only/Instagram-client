@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from "react"
+import {Fragment, useEffect, useState, useRef, ChangeEvent} from "react"
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
 import {ModalContainer} from "../components/modal/ProfileImg/modalcontainer/component"
@@ -9,7 +9,6 @@ import Setting from "../assets/svgs/Setting"
 import ProfileGrid from "../assets/svgs/ProfileGrid"
 import ProfileBookmark from "../assets/svgs/ProfileBookmark"
 import ProfileTag from "../assets/svgs/ProfileTag"
-import User from '../assets/imgs/profile.png'
 
 export default function Profile () {
   const navigate = useNavigate()
@@ -20,7 +19,7 @@ export default function Profile () {
     username: ''
   })
   const [profile, setProfile] = useState({
-    img: '',
+    profile: '',
     bookmark: [],
     like: [],
     follower: 0,
@@ -28,6 +27,7 @@ export default function Profile () {
   })
   const [posts, setPosts] = useState<any[]>()
   const [ProfileImgModal, setProfileImgModal] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const userVerify = async () => {
     // AccessToken verify
@@ -43,7 +43,7 @@ export default function Profile () {
       axios.post('/api/user', { _id: res.data.id }, {
         headers: { 'Content-Type': 'application/json' }
       }).then(_resp => {
-        setProfile({ img: _resp.data.profile, bookmark: _resp.data.bookmark, like: _resp.data.like, follower: _resp.data.follower, following: _resp.data.following })
+        setProfile({ profile: _resp.data.profile, bookmark: _resp.data.bookmark, like: _resp.data.like, follower: _resp.data.follower, following: _resp.data.following })
       })
 
       // Get user posts
@@ -56,9 +56,15 @@ export default function Profile () {
     })
   }
 
+  const uploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files![0].name)
+
+    let formData = new FormData()
+    formData.append('file', e.target.files![0])
+  }
+
   useEffect(() => {
     if (!sessionStorage.getItem('TOKEN')) navigate('/login')
-
     userVerify()
   }, [])
 
@@ -68,7 +74,12 @@ export default function Profile () {
       { ProfileImgModal ?
         <ModalContainer>
           <ModalWindow>
-            <div className={'text-[20px] font-[500] w-full'}>프로필 사진 바꾸기</div>
+            <div className={'w-full h-[80px] text-[20px] font-[500] flex justify-center items-center border-b-[1px] border-b-gray-200'}>프로필 사진 바꾸기</div>
+            <button className={'w-full h-[48px] text-sm font-bold text-red-500 border-b-[1px] border-b-gray-200'}>현재 사진 삭제</button>
+            <button className={'w-full h-[48px] text-sm font-bold text-blue-500 border-b-[1px] border-b-gray-200'} onClick={() => fileRef.current?.click()}>사진 업로드</button>
+            <button className={'w-full h-[48px] text-[14px]'} onClick={() => setProfileImgModal(false)}>취소</button>
+
+            <input type='file' ref={fileRef} className={'hidden'} onChange={uploadFile} />
           </ModalWindow>
         </ModalContainer>
       : null }
@@ -77,7 +88,7 @@ export default function Profile () {
 
       <div className={'w-screen flex flex-col items-center'}>
         <div className={'flex justify-center items-center mt-8 ml-[200px] mb-24'}>
-          <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer'} src={User} alt={''} onClick={() => setProfileImgModal(true)} />
+          <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer rounded-full'} src={`/api/upload/profile/${profile.profile}`} alt={''} onClick={() => setProfileImgModal(true)} />
 
           <div>
             <div className={'flex items-center mb-4'}>
