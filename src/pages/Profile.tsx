@@ -61,7 +61,17 @@ export default function Profile () {
 
     let formData = new FormData()
     formData.append('file', e.target.files![0])
+    formData.append('_id', user.id)
+
+    axios.patch('/api/user/profile', formData)
+      .then(resp => {
+        console.log(resp)
+      })
   }
+
+  // const useDefault = async () => {
+
+  // }
 
   useEffect(() => {
     if (!sessionStorage.getItem('TOKEN')) navigate('/login')
