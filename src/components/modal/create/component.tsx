@@ -21,7 +21,7 @@ const Window = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: sizeDown;
+  transition: all;
 `
 
 export { Container, Window }

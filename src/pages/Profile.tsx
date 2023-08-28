@@ -39,13 +39,12 @@ export default function Profile () {
       if (res.status !== 200) navigate('/login')
       if (!username) window.location.href = `/profile/${res.data.username}`
 
-      setUser({ id: res.data.id, email: res.data.email, name: res.data.name, username: res.data.username })
-
       // Get user profile information
       axios.get(`/api/user/filter/${username}`, {
         headers: { 'Content-Type': 'application/json' }
       }).then(_resp => {
         if (_resp.data == '') navigate('/')
+        setUser({ id: _resp.data._id, email: _resp.data.email, name: _resp.data.name, username: _resp.data.username })
         setProfile({ profile: _resp.data.profile, bookmark: _resp.data.bookmark, like: _resp.data.like, follower: _resp.data.follower, following: _resp.data.following })
       })
 
