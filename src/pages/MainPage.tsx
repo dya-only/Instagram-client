@@ -1,19 +1,11 @@
 import {Fragment, useEffect} from "react"
 import {useNavigate} from "react-router-dom"
+import axios from "axios"
+
 import Navigator from '../components/navigator/component.tsx'
 import Story from "../components/story/component.tsx"
 import Post from "../components/post/component.tsx"
 import Recommend from "../components/recommned/component.tsx"
-// import Menu from "../assets/svgs/Menu.tsx"
-// import Heart from "../assets/svgs/Heart.tsx"
-// import Chat from "../assets/svgs/Chat.tsx"
-// import Message from "../assets/svgs/Message.tsx"
-// import Bookmark from "../assets/svgs/Bookmark.tsx"
-// import Emoji from "../assets/svgs/Emoji.tsx"
-//
-// import User from "../assets/imgs/profile.png"
-// import StellLive from '../assets/imgs/template/stelllive.jpg'
-import axios from "axios";
 
 export default function MainPage() {
   const navigate = useNavigate()
@@ -29,7 +21,6 @@ export default function MainPage() {
 
   useEffect(() => {
     if (!sessionStorage.getItem('TOKEN')) navigate('/login')
-
     userVerify()
   }, [])
 
@@ -38,7 +29,7 @@ export default function MainPage() {
       <Navigator />
 
       <div className={'w-screen flex justify-center items-start'}>
-        <div className={'w-[600px] flex flex-col justify-start items-center mt-[45px] mr-20 xs:ml-64 lg:ml-64 md:ml-28 sm:ml-28'}>
+        <div className={'w-[600px] flex flex-col justify-start items-center mt-[45px] mr-20 xs:ml-[250px] lg:ml-[250px] md:ml-28 sm:ml-28'}>
           <div className={'w-full h-[100px] flex justify-start items-center overflow-x-scroll p-1 pr-4'}>
             <Story/><Story/><Story/><Story/><Story/><Story/>
             <Story/><Story/><Story/><Story/><Story/><Story/>
