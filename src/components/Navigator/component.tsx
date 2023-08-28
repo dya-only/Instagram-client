@@ -20,12 +20,13 @@ import { Container } from '../modal/create/component'
 
 export default function Navigator() {
   const [w, setW] = useState(658)
-  const [user, setUser] = useState({ id: '', username: '' })
+  const [user, setUser] = useState({ id: '', email: '', username: '' })
+  const [area, setArea] = useState(' ')
   const [profile, setProfile] = useState('')
   const [createStep, setCreateStep] = useState(0)
   const [preview, setPreview] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
-  let formData = new FormData()
+  const [uploadImg, setUploadImg] = useState<File | any>()
 
   const Window = styled.div`
     border-radius: 12px;
@@ -47,7 +48,7 @@ export default function Navigator() {
       const res = resp.data
       if (res.status !== 200) return
 
-      setUser({ id: res.data.id, username: res.data.username })
+      setUser({ id: res.data.id, email: res.data.email, username: res.data.username })
 
       // Get user profile img
       axios.post('/api/user', { _id: res.data.id }, {
@@ -58,13 +59,23 @@ export default function Navigator() {
 
   const uploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader()
-    formData = new FormData()
-    
-    formData.append('file', e.target.files![0])
+    setUploadImg(e.target.files![0])
+
     if (e.target.files![0]) fileReader.readAsDataURL(e.target.files![0])
     fileReader.onload = () => setPreview(fileReader.result!.toString())
 
     setCreateStep(2)
+  }
+
+  const uploadPost = async () => {
+    const formData = new FormData()
+
+    formData.append('file', uploadImg)
+    formData.append('author', user.email)
+    area === '' ? formData.append('content', '') : formData.append('content', area)
+
+    axios.post('/api/post', formData)
+      .then(resp => console.log(resp.data))
   }
 
   useEffect (() => {
@@ -89,7 +100,7 @@ export default function Navigator() {
               <div className={'w-full h-[42px] flex justify-between items-center border-b-[1px] border-b-gray-200'}>
                 <div className={'ml-4 cursor-pointer'} onClick={() => { setCreateStep(1); setW(658) }}><Previous /></div>
                 <p className={'font-bold'}>새 게시물 만들기</p>
-                <p className={'text-blue-500 font-bold text-[15px] mr-4 cursor-pointer'} onClick={() => setCreateStep(3)}>공유하기</p>
+                <p className={'text-blue-500 font-bold text-[15px] mr-4 cursor-pointer'} onClick={uploadPost}>공유하기</p>
               </div> : null }
 
             { createStep == 1 ? <div className={'w-[658px] h-[701px] flex flex-col justify-center items-center'}>
@@ -102,20 +113,18 @@ export default function Navigator() {
             { createStep == 2 ?
               <img className={'h-full'} src={preview} />
             : null }
-            { createStep == 3 ? 
+            { createStep == 3 ?
               <div className={'flex justify-start items-start'}>
-                <img className={'w-[658px] h-full'} src={preview} />
+                <img className={'w-[658px] h-[658px] object-cover rounded-bl-xl'} src={preview} />
                 <div className={'w-[339px] h-[275px] border-[1px] border-b-gray-300 p-5'}>
                   <div className={'flex items-center mb-3'}>
                     <img className={'w-[28px] rounded-full border-[1px] mr-3'} src={`/api/upload/profile/${profile}`} />
                     <p className={'font-bold text-sm'}>{ user.username }</p>
                   </div>
 
-                  <textarea className={'w-[290px] h-[175px] resize-none outline-none'} placeholder='문구 입력...' />
+                  <textarea className={'w-[290px] h-[175px] resize-none outline-none'} placeholder='문구 입력...' value={area} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setArea(e.target.value)} />
                   <Smile />
                 </div>
-
-                
               </div>
             : null }
           </Window>
