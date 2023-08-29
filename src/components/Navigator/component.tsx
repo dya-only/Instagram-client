@@ -1,7 +1,6 @@
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react"
 import {Link} from "react-router-dom"
 import axios from "axios"
-import { styled } from "styled-components"
 
 import Instagram from "../../assets/svgs/Instagram.tsx"
 import Home from "../../assets/svgs/Home.tsx"
@@ -13,32 +12,21 @@ import Heart from "../../assets/svgs/Heart.tsx"
 import Create from "../../assets/svgs/Create.tsx"
 import About from "../../assets/svgs/About.tsx"
 import InstagramMini from "../../assets/svgs/InstagramMini.tsx"
-import Media from "../../assets/svgs/Media.tsx"
+import Media from "../../assets/svgs/media.tsx"
 import Previous from "../../assets/svgs/previous.tsx"
 import Smile from "../../assets/svgs/smile.tsx"
 import { Container } from '../modal/create/component'
+import { Window } from "../modal/window/component.tsx"
 
 export default function Navigator() {
   const [w, setW] = useState(658)
   const [user, setUser] = useState({ id: '', email: '', username: '' })
-  const [area, setArea] = useState(' ')
+  const [content, setContent] = useState('')
   const [profile, setProfile] = useState('')
   const [createStep, setCreateStep] = useState(0)
   const [preview, setPreview] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const [uploadImg, setUploadImg] = useState<File | any>()
-
-  const Window = styled.div`
-    border-radius: 12px;
-    background: white;
-    width: ${w}px;
-    height: 701px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: all 1s;
-  `
 
   const userVerify = async () => {
     // AccessToken verify
@@ -72,10 +60,10 @@ export default function Navigator() {
 
     formData.append('file', uploadImg)
     formData.append('author', user.email)
-    area === '' ? formData.append('content', '') : formData.append('content', area)
+    content === '' ? formData.append('content', ' ') : formData.append('content', content)
 
     axios.post('/api/post', formData)
-      .then(resp => console.log(resp.data))
+      .then(() => setCreateStep(0))
   }
 
   useEffect (() => {
@@ -122,7 +110,7 @@ export default function Navigator() {
                     <p className={'font-bold text-sm'}>{ user.username }</p>
                   </div>
 
-                  <textarea className={'w-[290px] h-[175px] resize-none outline-none'} placeholder='문구 입력...' value={area} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setArea(e.target.value)} />
+                  <textarea className={'w-[290px] h-[175px] resize-none outline-none'} placeholder='문구 입력...' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)} />
                   <Smile />
                 </div>
               </div>

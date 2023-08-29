@@ -148,8 +148,8 @@ export default function Profile () {
           </div>
 
           <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
-            { posts?.map(el => (
-                <img className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`/api/upload/post/${el.img}`} alt={''} />
+            { posts?.map((el, idx) => (
+                <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`/api/upload/post/${el.img}`} alt={''} />
               )) }
           </div>
         </div>

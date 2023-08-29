@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Container = styled.div`
+export const Container = styled.div`
   z-index: 60;
   position: fixed;
   width: 100vw;
@@ -21,7 +21,5 @@ const Window = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: all;
+  transition: all 1s;
 `
-
-export { Container, Window }
