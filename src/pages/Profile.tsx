@@ -7,7 +7,8 @@ import Setting from "../assets/svgs/Setting"
 import ProfileGrid from "../assets/svgs/ProfileGrid"
 import ProfileBookmark from "../assets/svgs/ProfileBookmark"
 import ProfileTag from "../assets/svgs/ProfileTag"
-import { Container, Window } from "../components/modal/profile/component"
+import { Container } from "../components/modal/container/component"
+import { Window } from "../components/modal/window/component"
 
 export default function Profile () {
   const navigate = useNavigate()
@@ -46,14 +47,14 @@ export default function Profile () {
         if (_resp.data == '') navigate('/')
         setUser({ id: _resp.data._id, email: _resp.data.email, name: _resp.data.name, username: _resp.data.username })
         setProfile({ profile: _resp.data.profile, bookmark: _resp.data.bookmark, like: _resp.data.like, follower: _resp.data.follower, following: _resp.data.following })
-      })
-
-      // Get user posts
-      axios.get(`/api/post/filter/${res.data.email}`, {
-        headers: { 'Content-Type': 'application/json' }
-      }).then(_resp => {
-        const res = _resp.data
-        setPosts(res)
+      
+        // Get user posts
+        axios.get(`/api/post/filter/${_resp.data.email}`, {
+          headers: { 'Content-Type': 'application/json' }
+        }).then(_resp => {
+          const res = _resp.data
+          setPosts(res)
+        })
       })
     })
   }
@@ -93,7 +94,7 @@ export default function Profile () {
       {/* Modal window */}
       { ProfileImgModal ?
         <Container>
-          <Window>
+          <Window w={400} h={223}>
             <div className={'w-full h-[80px] text-[20px] font-[500] flex justify-center items-center border-b-[1px] border-b-gray-200'}>프로필 사진 바꾸기</div>
             <button className={'w-full h-[48px] text-sm font-bold text-red-500 border-b-[1px] border-b-gray-200'} onClick={useDefault}>현재 사진 삭제</button>
             <button className={'w-full h-[48px] text-sm font-bold text-blue-500 border-b-[1px] border-b-gray-200'} onClick={() => fileRef.current?.click()}>사진 업로드</button>

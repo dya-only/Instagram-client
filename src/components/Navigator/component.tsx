@@ -15,7 +15,7 @@ import InstagramMini from "../../assets/svgs/InstagramMini.tsx"
 import Media from "../../assets/svgs/media.tsx"
 import Previous from "../../assets/svgs/previous.tsx"
 import Smile from "../../assets/svgs/smile.tsx"
-import { Container } from '../modal/create/component'
+import { Container } from "../modal/container/component.tsx"
 import { Window } from "../modal/window/component.tsx"
 
 export default function Navigator() {
@@ -63,7 +63,7 @@ export default function Navigator() {
     content === '' ? formData.append('content', ' ') : formData.append('content', content)
 
     axios.post('/api/post', formData)
-      .then(() => setCreateStep(0))
+      .then(() => window.location.href = `/profile/${user.username}`)
   }
 
   useEffect (() => {
@@ -76,7 +76,7 @@ export default function Navigator() {
       {/* Upload post window */}
       { createStep ?
         <Container>
-          <Window>
+          <Window w={w} h={700}>
             { createStep == 1 ? <div className={'w-full h-[42px] flex justify-center items-center font-bold border-b-[1px] border-b-gray-200'}>새 게시물 만들기</div> : null }
             { createStep == 2 ?
               <div className={'w-full h-[42px] flex justify-between items-center border-b-[1px] border-b-gray-200'}>
@@ -91,7 +91,7 @@ export default function Navigator() {
                 <p className={'text-blue-500 font-bold text-[15px] mr-4 cursor-pointer'} onClick={uploadPost}>공유하기</p>
               </div> : null }
 
-            { createStep == 1 ? <div className={'w-[658px] h-[701px] flex flex-col justify-center items-center'}>
+            { createStep == 1 ? <div className={'w-[658px] h-[658px] flex flex-col justify-center items-center'}>
               <Media w={96} h={20} />
               <p className={'text-xl font-[500]'}>사진과 동영상을 여기에 끌어다 놓지마세요</p>
 
@@ -99,7 +99,7 @@ export default function Navigator() {
               <input type='file' ref={fileRef} className={'hidden'} onChange={uploadFile} />
             </div> : null }
             { createStep == 2 ?
-              <img className={'h-full'} src={preview} />
+              <img className={'w-[658px] h-[659px] object-cover'} src={preview} />
             : null }
             { createStep == 3 ?
               <div className={'flex justify-start items-start'}>
@@ -162,10 +162,10 @@ export default function Navigator() {
               <p className={'font-[500] text-[16px]'}>만들기</p>
             </button>
 
-            <Link className={'flex justify-center items-end ml-2 mb-8'} to={'/profile'}>
+            <a className={'flex justify-center items-end ml-2 mb-8'} href={`/profile/${user.username}`}>  
               <img className={'w-[24px] mr-[15px] font-[noto] rounded-full'} src={`/api/upload/profile/${profile}`} alt=""/>
               <p className={'font-[500] text-[16px]'}>프로필</p>
-            </Link>
+            </a>
           </div>
 
           {/*MD, SM*/}

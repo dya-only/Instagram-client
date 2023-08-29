@@ -2,23 +2,24 @@ import { styled } from "styled-components"
 
 interface StyledWindowProps {
   w: number
+  h: number
 }
 
 const StyledWindow = styled.div<StyledWindowProps>`
   border-radius: 12px;
   background: white;
   width: ${(props) => props.w}px;
-  height: 701px;
+  height: ${(props) => props.h}px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: all 1s;
+  transition: all .5s;
 `
 
-export const Window = ({ children }: any, props: { w: number }) => {
+export const Window = ({ children, w, h }: any) => {
   return (
-    <StyledWindow w={props.w}>
+    <StyledWindow w={w} h={h}>
       { children }
     </StyledWindow>
   )
