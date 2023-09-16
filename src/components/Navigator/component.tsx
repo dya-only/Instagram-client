@@ -19,37 +19,46 @@ import {Container} from "../modal/container/component.tsx"
 import {Window} from "../modal/window/component.tsx"
 
 import Profile from '../../assets/imgs/profile.jpg'
+import Check from '../../assets/imgs/check.png'
 
 export default function Navigator() {
   const [w, setW] = useState(658)
   const [user, setUser] = useState({id: '', email: '', username: '', avatar: ''})
   const [content, setContent] = useState('')
-  // const [profile, setProfile] = useState('')
   const [createStep, setCreateStep] = useState(0)
   const [preview, setPreview] = useState('')
+  const [uploadImg, setUploadImg] = useState<any>()
   const fileRef = useRef<HTMLInputElement>(null)
-  let uploadImg: File
 
   const userVerify = async () => {
     // AccessToken verify
     axios.post('/api/auth/verify', {token: sessionStorage.getItem('TOKEN')}, {
       headers: {'Content-Type': 'application/json'}
     }).then(resp => {
-      const res = resp.data
-      if (res.status !== 200) return
+        const res = resp.data
+        if (!res.success) return
 
-      setUser({id: res.body.id, email: res.body.email, username: res.body.username, avatar: res.body.avatar})
-
-      // Get user profile img
-      // axios.get(`/api/user/${res.data.id}`, {
-      //   headers: { 'Content-Type': 'application/json' }
-      // }).then(_resp => setProfile(_resp.data.profile))
-    })
+        // Get user profile img
+        axios.get(`/api/user/${res.body.id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+          }
+        }).then(_resp => {
+          setUser({
+            id: _resp.data.body.id,
+            email: _resp.data.body.email,
+            username: _resp.data.body.username,
+            avatar: _resp.data.body.avatar.url
+          })
+        })
+      }
+    )
   }
 
   const uploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader()
-    uploadImg = e.target.files![0]
+    setUploadImg(e.target.files![0])
 
     if (e.target.files![0]) fileReader.readAsDataURL(e.target.files![0])
     fileReader.onload = () => setPreview(fileReader.result!.toString())
@@ -61,11 +70,12 @@ export default function Navigator() {
     const formData = new FormData()
 
     formData.append('img', uploadImg)
-    formData.append('author', user.email)
+    formData.append('author', user.id)
     content === '' ? formData.append('content', ' ') : formData.append('content', content)
 
-    axios.post('/api/post', formData)
-      .then(() => window.location.href = `/profile/${user.username}`)
+    axios.post('/api/post', formData, {
+      headers: {'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`}
+    }).then((resp) => console.log(resp.data))
   }
 
   useEffect(() => {
@@ -98,8 +108,17 @@ export default function Navigator() {
                   setW(658)
                 }}><Previous/></div>
                 <p className={'font-bold'}>새 게시물 만들기</p>
-                <p className={'text-blue-500 font-bold text-[15px] mr-4 cursor-pointer'} onClick={uploadPost}>공유하기</p>
+                <p className={'text-blue-500 font-bold text-[15px] mr-4 cursor-pointer'} onClick={() => {
+                  setCreateStep(4)
+                  setW(658)
+                  uploadPost()
+                }}>공유하기</p>
               </div> : null}
+            {createStep == 4 ?
+              <div
+                className={'w-full h-[42px] flex justify-center items-center border-b-[1px] border-b-gray-200 font-bold'}>게시물이
+                공유되었습니다.</div>
+              : null}
 
             {createStep == 1 ? <div className={'w-[658px] h-[658px] flex flex-col justify-center items-center'}>
               <Media w={96} h={20}/>
@@ -117,15 +136,23 @@ export default function Navigator() {
             {createStep == 3 ?
               <div className={'flex justify-start items-start'}>
                 <img className={'w-[658px] h-[658px] object-cover rounded-bl-xl'} src={preview}/>
-                <div className={'w-[339px] h-[275px] border-[1px] border-b-gray-300 p-5'}>
+                <div className={'w-[339px] h-[275px] border-[1px] border-b-gray-300 p-5 bg-white'}>
                   <div className={'flex items-center mb-3'}>
-                    <img className={'w-[28px] rounded-full border-[1px] mr-3'} src={user.avatar || Profile}/>
+                    <img className={'w-[28px] rounded-full border-[1px] mr-3 object-cover'} src={user.avatar || Profile}/>
                     <p className={'font-bold text-sm'}>{user.username}</p>
                   </div>
 
                   <textarea className={'w-[290px] h-[175px] resize-none outline-none'} placeholder='문구 입력...'
                             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}/>
                   <Smile/>
+                </div>
+              </div>
+              : null}
+            {createStep == 4 ?
+              <div className={'flex flex-col justify-start items-center'} onClick={() => {setCreateStep(0); window.location.href = `/profile`}}>
+                <div className={'w-[658px] h-[658px] flex flex-col justify-center items-center'}>
+                  <img src={Check} alt="" className={'w-40'}/>
+                  <div className={'text-2xl mt-4'}>게시물이 공유되었습니다.</div>
                 </div>
               </div>
               : null}
@@ -178,7 +205,7 @@ export default function Navigator() {
             </button>
 
             <a className={'flex justify-center items-end ml-2 mb-8'} href={`/profile/${user.username}`}>
-              <img className={'w-[24px] mr-[15px] font-[noto] rounded-full'}
+              <img className={'w-[24px] h-[24px] mr-[15px] font-[noto] rounded-full object-cover'}
                    src={user.avatar || Profile} alt=""/>
               <p className={'font-[500] text-[16px]'}>프로필</p>
             </a>
@@ -215,7 +242,7 @@ export default function Navigator() {
             </button>
 
             <Link className={'flex justify-center items-end mb-8'} to={'/profile'}>
-              <img className={'w-[24px] font-[noto] rounded-full'} src={user.avatar || Profile}
+              <img className={'w-[24px] h-[24px] font-[noto] rounded-full object-cover'} src={user.avatar || Profile}
                    alt=''/>
             </Link>
           </div>

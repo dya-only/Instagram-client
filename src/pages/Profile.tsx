@@ -11,6 +11,7 @@ import {Container} from "../components/modal/container/component"
 import {Window} from "../components/modal/window/component"
 
 import Default from '../assets/imgs/profile.jpg'
+
 export default function Profile() {
   const navigate = useNavigate()
   const {username} = useParams()
@@ -27,13 +28,6 @@ export default function Profile() {
     follower: 0,
     following: 0
   })
-  // const [profile, setProfile] = useState({
-  //   avatar: '',
-  //   bookmarks: [],
-  //   likes: [],
-  //   follower: 0,
-  //   following: 0
-  // })
   const [posts, setPosts] = useState<any[]>()
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -82,11 +76,14 @@ export default function Profile() {
         })
 
         // Get user posts
-        axios.get(`/api/post/@me/${resp.data.body.id}`, {
-          headers: {'Content-Type': 'application/json'}
+        axios.get(`/api/post/@me/${_resp.data.body.id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+          }
         }).then(_resp => {
           const res = _resp.data
-          setPosts(res.body || [])
+          setPosts(res.body)
         })
       })
     })
@@ -116,14 +113,12 @@ export default function Profile() {
     axios.patch('/api/user/avatar', formData, {
       headers: {'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`}
     })
-      .then(resp => {
-        console.log(resp)
+      .then(() => {
         window.location.href = '/profile'
       })
   }
 
   useEffect(() => {
-    if (!sessionStorage.getItem('TOKEN')) navigate('/login')
     userVerify()
   }, [])
 
@@ -155,10 +150,10 @@ export default function Profile() {
       <div className={'w-screen flex flex-col items-center'}>
         <div className={'flex justify-center items-center mt-8 ml-[200px] mb-24'}>
           {user.id === u ?
-            <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer rounded-full'}
+            <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer rounded-full object-cover'}
                  src={`${user.avatar || Default}`} alt={''}
                  onClick={() => setProfileImgModal(true)}/>
-            : <img className={'w-[150px] h-[150px] mr-24 rounded-full'}
+            : <img className={'w-[150px] h-[150px] mr-24 rounded-full object-cover'}
                    src={`${user.avatar || Default}`} alt={''}/>}
 
           <div>
@@ -211,8 +206,7 @@ export default function Profile() {
 
           <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
             {posts?.map((el, idx) => (
-              <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'}
-                   src={`${el.img}`} alt={''}/>
+              <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`${el.img.url}`} alt={''}/>
             ))}
           </div>
         </div>
