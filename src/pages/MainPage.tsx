@@ -11,25 +11,25 @@ export default function MainPage() {
   const navigate = useNavigate()
 
   const userVerify = async () => {
-    axios.post('/api/user/verify', { token: sessionStorage.getItem('TOKEN') }, {
+    axios.post('/api/auth/verify', {token: sessionStorage.getItem('TOKEN')}, {
       headers: {'Content-Type': 'application/json'}
     }).then(resp => {
       const res = resp.data
-      if (res.status !== 200) navigate('/login')
+      if (!res.success) navigate('/login')
     })
   }
 
   useEffect(() => {
-    if (!sessionStorage.getItem('TOKEN')) navigate('/login')
     userVerify()
   }, [])
 
   return (
     <Fragment>
-      <Navigator />
+      <Navigator/>
 
       <div className={'w-screen flex justify-center items-start'}>
-        <div className={'w-[600px] flex flex-col justify-start items-center mt-[45px] mr-20 xs:ml-[250px] lg:ml-[250px] md:ml-28 sm:ml-28'}>
+        <div
+          className={'w-[600px] flex flex-col justify-start items-center mt-[45px] mr-20 xs:ml-[250px] lg:ml-[250px] md:ml-28 sm:ml-28'}>
           <div className={'w-full h-[100px] flex justify-start items-center overflow-x-scroll p-1 pr-4'}>
             <Story/><Story/><Story/><Story/><Story/><Story/>
             <Story/><Story/><Story/><Story/><Story/><Story/>
