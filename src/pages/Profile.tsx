@@ -7,6 +7,7 @@ import Setting from "../assets/svgs/Setting"
 import ProfileGrid from "../assets/svgs/ProfileGrid"
 import ProfileBookmark from "../assets/svgs/ProfileBookmark"
 import ProfileTag from "../assets/svgs/ProfileTag"
+import Close from "../assets/svgs/Close.tsx";
 import {Container} from "../components/modal/container/component"
 import {Window} from "../components/modal/window/component"
 
@@ -29,6 +30,8 @@ export default function Profile() {
     following: 0
   })
   const [posts, setPosts] = useState<any[]>()
+  const [postDetail, setPostDetail] = useState<any>()
+  const [isPostDetail, setIsPostDetail] = useState(false)
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -118,19 +121,32 @@ export default function Profile() {
       })
   }
 
+  const getPostDetail = async (id: number) => {
+    axios.get(`/api/post/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(resp => {
+      const res = resp.data
+      console.log(res)
+      setPostDetail(res.body)
+      setIsPostDetail(true)
+    })
+  }
+
   useEffect(() => {
     userVerify()
   }, [])
 
   return (
     <Fragment>
-      {/* Modal window */}
+      {/* Modal windows*/}
       {ProfileImgModal ?
         <Container>
           <Window w={400} h={223}>
-            <div
-              className={'w-full h-[80px] text-[20px] font-[500] flex justify-center items-center border-b-[1px] border-b-gray-200'}>프로필
-              사진 바꾸기
+            <div className={'w-full h-[80px] text-[20px] font-[500] flex justify-center items-center border-b-[1px] border-b-gray-200'}>
+              프로필 사진 바꾸기
             </div>
             <button className={'w-full h-[48px] text-sm font-bold text-red-500 border-b-[1px] border-b-gray-200'}
                     onClick={useDefault}>현재 사진 삭제
@@ -145,6 +161,20 @@ export default function Profile() {
         </Container>
         : null}
 
+        { isPostDetail ?
+          <Container>
+            <div className={'z-10 fixed w-[98%] h-screen mt-8 flex justify-end items-start'} onClick={() => setIsPostDetail(false)}><Close /></div>
+            <div className={'z-20 p-2 flex xl:flex-row lg:flex-row md:flex-col sm:flex-col'}>
+              <img src={postDetail.img.url} alt="" className={'xl:w-[718px] lg:w-[718px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[300px] sm:h-[300px] bg-black flex justify-center items-center object-contain xl:rounded-none lg:rounded-none md:rounded-t-xl sm:rounded-t-xl'}/>
+              <div className={'xs:w-[500px] lg:w-[500px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[100px] sm:h-[100px] bg-white xl:rounded-r-md xl:rounded-l-none lg:rounded-r-md lg:rounded-l-none md:rounded-b-xl sm:rounded-b-xl'}>
+                <div className={'h-[60px] border-b-[1px] flex justify-between'}>
+                  {/*author profile*/}
+                </div>
+                <div className="font-lg m-4">{ postDetail.content }</div>
+              </div>
+            </div>
+          </Container>
+        : null }
       <Navigator/>
 
       <div className={'w-screen flex flex-col items-center'}>
@@ -206,7 +236,8 @@ export default function Profile() {
 
           <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
             {posts?.map((el, idx) => (
-              <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`${el.img.url}`} alt={''}/>
+              <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'}
+                   src={`${el.img.url}`} alt={''} onClick={() => getPostDetail(el.id)}/>
             ))}
           </div>
         </div>
