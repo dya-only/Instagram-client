@@ -32,14 +32,14 @@ export default function Navigator() {
 
   const userVerify = async () => {
     // AccessToken verify
-    axios.post('/api/auth/verify', {token: sessionStorage.getItem('TOKEN')}, {
+    axios.post('/api/auth/by-token', {token: sessionStorage.getItem('TOKEN')}, {
       headers: {'Content-Type': 'application/json'}
     }).then(resp => {
         const res = resp.data
         if (!res.success) return
 
         // Get user profile img
-        axios.get(`/api/user/${res.body.id}`, {
+        axios.get(`/api/user/${res.claims.id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`

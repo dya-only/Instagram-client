@@ -4,23 +4,45 @@ import Chat from "../../assets/svgs/Chat.tsx"
 import Message from "../../assets/svgs/Message.tsx"
 import Bookmark from "../../assets/svgs/Bookmark.tsx"
 import Emoji from "../../assets/svgs/Emoji.tsx"
-import User from '../../assets/imgs/profile.jpg'
-import MoreRoses from '../../assets/imgs/template/moreRoses.jpg'
+import { useEffect, useState } from "react"
+import axios from "axios"
 
-export default function Post () {
+export default function Post(props: { author: number, content: string, img: string, likes: number }) {
+  const [user, setUser] = useState({
+    username: '',
+    avatar: '' 
+  })
+
+  const getUser = async () => {
+    axios.get(`/api/user/${props.author}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(resp => {
+      const res = resp.data
+      console.log(res.body)
+      setUser({ username: res.body.username, avatar: res.body.img })
+    })
+  }
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
   return (
     <div className={'w-[470px] pt-8 pb-8 flex flex-col items-center'}>
       <div className={'w-[470px] flex justify-between items-center mb-4'}>
         <div className={'flex justify-start items-center cursor-pointer'}>
           <div className={'relative flex justify-center items-center'}>
-            <img className={'absolute w-[30px] border-[0.5px] rounded-full'} src={User} alt={''} />
+            <img className={'absolute w-[30px] border-[0.5px] rounded-full'} src={user.avatar} alt={''} />
             <div className={'rounded-full w-[32px] h-[32px] border-[1px]'}></div>
           </div>
-          <div className={'font-bold text-black text-[13px] ml-3'}>dy4code</div>
+          <div className={'font-bold text-black text-[13px] ml-3'}>{ user.username }</div>
         </div>
         <Menu />
       </div>
-      <img className={'w-[468px] rounded-md mb-4 max-h-[600px] object-cover'} src={MoreRoses} alt={''} />
+      <img className={'w-[468px] rounded-md mb-4 min-h-[600px] object-cover'} src={`/api/uploads/posts/${props.img}`} alt={''} />
 
       <div className={'w-full flex justify-between items-center mb-2'}>
         <div className={'flex items-center'}>
@@ -34,11 +56,11 @@ export default function Post () {
         <Bookmark />
       </div>
 
-      <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 N개</p>
+      <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 { props.likes }개</p>
 
       <div className={'w-full flex justify-start items-start mb-1'}>
-        <p className={'font-[700] text-[15px] mr-2 cursor-pointer hover:text-gray-400 transition duration-200'}>dy4code</p>
-        <p className={'text-[14px]'}>게시물의 설명</p>
+        <p className={'font-[700] text-[15px] mr-2 cursor-pointer hover:text-gray-400 transition duration-200'}>{ user.username }</p>
+        <p className={'text-[14px]'}>{ props.content }</p>
       </div>
 
       <div className={'w-full flex'}>

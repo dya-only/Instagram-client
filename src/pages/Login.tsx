@@ -7,7 +7,7 @@ export default function Login() {
   const [user, setUser] = useState({email: '', password: ''})
 
   const getVerify = async () => {
-    axios.post('/api/auth/login', user, {
+    axios.post('/api/auth/by-pass', user, {
       headers: {'Content-Type': 'application/json'}
     }).then(resp => {
       const res = resp.data
