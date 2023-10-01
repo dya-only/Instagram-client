@@ -2,8 +2,6 @@ import axios from "axios"
 import {useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom"
 
-import Profile from '../../assets/imgs/profile.jpg'
-
 export default function Recommend() {
   const navigate = useNavigate()
   const [user, setUser] = useState({ name: '', username: '', avatar: '' })
@@ -34,7 +32,7 @@ export default function Recommend() {
     <div className={'w-[343px] mt-[60px] h-screen xs:block lg:block md:hidden sm:hidden flex flex-col justify-start items-center'}>
       <div className={'flex justify-between items-center w-[290px]'}>
         <div className={'flex'}>
-          <img className={'w-[44px] h-[44px] mr-4 object-cover rounded-full'} src={user.avatar || Profile} alt={''} />
+          <img className={'w-[44px] h-[44px] mr-4 object-cover rounded-full'} src={`/api/uploads/avatar/${user.avatar}`} alt={''} />
           <div>
             <p className={'text-[14px] font-semibold'}>{ user.username }</p>
             <p className={'text-[14px] font-[500] text-gray-500'}>{ user.name }</p>

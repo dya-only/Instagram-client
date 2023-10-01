@@ -10,6 +10,7 @@ import Recommend from "../components/recommned/component.tsx"
 export default function MainPage() {
   const navigate = useNavigate()
   const [posts, setPosts] = useState([])
+  const [userid, setUserid] = useState(0)
   let id: number
   let next: number = 0
 
@@ -21,6 +22,7 @@ export default function MainPage() {
       if (!res.success) navigate('/login')
 
       id = res.claims.id
+      setUserid(res.claims.id)
       getPosts()
     })
   }
@@ -53,8 +55,8 @@ export default function MainPage() {
           </div>
 
           <div className={'w-full flex flex-col justify-start items-center mt-6'}>
-            { posts.map((el: { author: number, content: string, img: string, likes: number }) => {
-              return <Post author={el.author} content={el.content} img={el.img} likes={el.likes} />
+            { posts.map((el: { id: number, author: number, content: string, img: string, likes: number }, idx: number) => {
+              return <Post key={idx} userid={userid} id={el.id} author={el.author} content={el.content} img={el.img} likes={el.likes} />
             }) }
           </div>
         </div>
