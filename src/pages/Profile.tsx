@@ -171,7 +171,7 @@ export default function Profile() {
         <Container>
           <div className={'z-10 fixed w-[98%] h-screen mt-8 flex justify-end items-start'} onClick={() => setIsPostDetail(false)}><Close /></div>
           <div className={'z-20 p-2 flex xl:flex-row lg:flex-row md:flex-col sm:flex-col'}>
-            <img src={`/api/uploads/post/${postDetail.img}`} alt='' className={'xl:w-[718px] lg:w-[718px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[300px] sm:h-[300px] bg-black flex justify-center items-center object-contain xl:rounded-none lg:rounded-none md:rounded-t-xl sm:rounded-t-xl'} />
+            <img src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${postDetail.img}`} alt='' className={'xl:w-[718px] lg:w-[718px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[300px] sm:h-[300px] bg-black flex justify-center items-center object-contain xl:rounded-none lg:rounded-none md:rounded-t-xl sm:rounded-t-xl'} />
             <div className={'xs:w-[500px] lg:w-[500px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[100px] sm:h-[100px] bg-white xl:rounded-r-md xl:rounded-l-none lg:rounded-r-md lg:rounded-l-none md:rounded-b-xl sm:rounded-b-xl'}>
               <div className={'h-[60px] border-b-[1px] flex justify-between'}>
                 {/*author profile*/}
@@ -187,10 +187,10 @@ export default function Profile() {
         <div className={'flex justify-center items-center mt-8 ml-[200px] mb-24'}>
           {user.id === u ?
             <img className={'w-[150px] h-[150px] mr-24 hover:brightness-90 cursor-pointer rounded-full object-cover'}
-              src={`/api/uploads/avatar/${user.avatar}`} alt={''}
+              src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt={''}
               onClick={() => setProfileImgModal(true)} />
             : <img className={'w-[150px] h-[150px] mr-24 rounded-full object-cover'}
-              src={`/api/uploads/avatar/${user.avatar}`} alt={''} />}
+              src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt={''} />}
 
           <div>
             {user.id === u ?
@@ -243,7 +243,7 @@ export default function Profile() {
           <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
             {posts?.map((el, idx) => (
               <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'}
-                src={`/api/uploads/post/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
+                src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
             ))}
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import Profile from '../../assets/imgs/profile.jpg'
 
 export default function Story () {

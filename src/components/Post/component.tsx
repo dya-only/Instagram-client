@@ -56,7 +56,6 @@ export default function Post(props: {userid: number, id: number, author: number,
       console.log(res)
       setIsLiked(true)
     })
-
   }
 
   const RemoveLike = async () => {
@@ -83,14 +82,14 @@ export default function Post(props: {userid: number, id: number, author: number,
       <div className={'w-[470px] flex justify-between items-center mb-4'}>
         <Link className={'flex justify-start items-center cursor-pointer'} to={`/profile/${user.username}`}>
           <div className={'flex justify-center items-center'}>
-            <img className={'absolute w-[32px] h-[32px] object-cover border-[0.5px] rounded-full'} src={`/api/uploads/avatar/${user.avatar}`} alt={''} />
+            <img className={'absolute w-[32px] h-[32px] object-cover border-[0.5px] rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt={''} />
             <div className={'rounded-full w-[36px] h-[36px] border-[1px]'}></div>
           </div>
           <div className={'font-bold text-black text-[13px] ml-3'}>{ user.username }</div>
         </Link>
         <Menu />
       </div>
-      <img className={'w-[468px] rounded-md mb-4 min-h-[468px] max-h-[585px] object-cover'} src={`/api/uploads/post/${props.img}`} alt={''} />
+      <img className={'w-[468px] rounded-md mb-4 min-h-[468px] max-h-[585px] object-cover'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${props.img}`} alt={''} />
 
       <div className={'w-full flex justify-between items-center mb-2'}>
         <div className={'flex items-center'}>

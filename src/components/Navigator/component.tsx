@@ -138,7 +138,7 @@ export default function Navigator() {
                 <img className={'w-[658px] h-[658px] object-cover rounded-bl-xl'} src={preview}/>
                 <div className={'w-[339px] h-[275px] border-[1px] border-b-gray-300 p-5 bg-white'}>
                   <div className={'flex items-center mb-3'}>
-                    <img className={'w-[28px] h-[28px] rounded-full border-[1px] mr-3 object-cover'} src={`/api/uploads/avatar/${user.avatar}`}/>
+                    <img className={'w-[28px] h-[28px] rounded-full border-[1px] mr-3 object-cover'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`}/>
                     <p className={'font-bold text-sm'}>{user.username}</p>
                   </div>
 
@@ -206,7 +206,7 @@ export default function Navigator() {
 
             <a className={'flex justify-center items-end ml-2 mb-8'} href={`/profile/${user.username}`}>
               <img className={'w-[24px] h-[24px] mr-[15px] font-[noto] rounded-full object-cover'}
-                   src={`/api/uploads/avatar/${user.avatar}`} alt=""/>
+                   src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt=""/>
               <p className={'font-[500] text-[16px]'}>프로필</p>
             </a>
           </div>
@@ -242,7 +242,7 @@ export default function Navigator() {
             </button>
 
             <Link className={'flex justify-center items-end mb-8'} to={'/profile'}>
-              <img className={'w-[24px] h-[24px] font-[noto] rounded-full object-cover'} src={`/api/uploads/avatar/${user.avatar}`}
+              <img className={'w-[24px] h-[24px] font-[noto] rounded-full object-cover'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`}
                    alt=''/>
             </Link>
           </div>

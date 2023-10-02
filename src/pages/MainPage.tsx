@@ -11,7 +11,6 @@ export default function MainPage() {
   const navigate = useNavigate()
   const [posts, setPosts] = useState([])
   const [userid, setUserid] = useState(0)
-  let id: number
   let next: number = 0
 
   const userVerify = async () => {
@@ -21,14 +20,13 @@ export default function MainPage() {
       const res = resp.data
       if (!res.success) navigate('/login')
 
-      id = res.claims.id
       setUserid(res.claims.id)
       getPosts()
     })
   }
 
   const getPosts = async () => {
-    axios.get(`/api/post/recommend/${id}/${next}`, { 
+    axios.get(`/api/post/recommend/${next}`, { 
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
