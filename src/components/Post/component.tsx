@@ -17,6 +17,7 @@ export default function Post(props: {userid: number, id: number, author: number,
     avatar: '' 
   })
   const [isLiked, setIsLiked] = useState(false)
+  const [likes, setLikes] = useState(0)
 
   const getAuthor = async () => {
     axios.get(`/api/user/${props.author}`, {
@@ -41,7 +42,7 @@ export default function Post(props: {userid: number, id: number, author: number,
       const likes = res.body.likes
 
       setIsLiked(likes.includes(props.id))
-      console.log(likes)
+      setLikes(props.likes || 0)
     })
   }
 
@@ -51,10 +52,9 @@ export default function Post(props: {userid: number, id: number, author: number,
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
       }
-    }).then(resp => {
-      const res = resp.data
-      console.log(res)
+    }).then(_ => {
       setIsLiked(true)
+      setLikes(likes + 1)
     })
   }
 
@@ -64,12 +64,10 @@ export default function Post(props: {userid: number, id: number, author: number,
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
       }
-    }).then(resp => {
-      const res = resp.data
-      console.log(res)
+    }).then(_ => {
       setIsLiked(false)
+      setLikes(likes - 1)
     })
-
   }
 
   useEffect(() => {
@@ -103,7 +101,7 @@ export default function Post(props: {userid: number, id: number, author: number,
         <Bookmark />
       </div>
 
-      <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 { props.likes || 0 }개</p>
+      <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 { likes }개</p>
 
       <div className={'w-full flex justify-start items-start mb-1'}>
         <p className={'font-[700] text-[15px] mr-2 cursor-pointer hover:text-gray-400 transition duration-200'}>{ user.username }</p>
