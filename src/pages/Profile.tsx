@@ -36,8 +36,6 @@ export default function Profile() {
     author: 0,
   })
   const [comments, setComments] = useState<any[]>()
-  const [commentAvatars, setCommentAvatars] = useState<string[]>([])
-  const [commentUsernames, setCommentUsernames] = useState<string[]>([])
   const [isPostDetail, setIsPostDetail] = useState(false)
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -147,7 +145,6 @@ export default function Profile() {
         const res = resp.data
         setComments(res.body)
       })
-
       setIsPostDetail(true)
     })
   }
@@ -196,16 +193,28 @@ export default function Profile() {
               <div className={'m-4 flex items-start'}>
                 <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt='' />
                 <div className={'font-[600] mr-2'}>{user.username}</div>
-                <div className={'max-w-[400px] font-lg text-[14px] mt-[1px]'}>{postDetail.content}</div>
+                <div className={'max-w-[400px] font-lg text-[14px] mt-[2px]'}>{postDetail.content}</div>
               </div>
 
-              { comments?.map((el, idx) => {
-                return <div key={idx} className={'m-4 flex items-start'}>
-                  <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${'default.jpg'}`} alt='' />
-                  <div className={'font-[600] text-[14px] mr-2'}>{'username'}</div>
-                  <div className={'max-w-[400px] font-lg text-[14px] mt-[1px]'}>{el.content}</div>
+              {comments?.map((el, idx) => {
+                return <div key={idx} className={'m-4 flex items-center'}>
+                  <a href={`/profile/${el.username}`}>
+                    <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.avatar}`} alt='' />
+                  </a>
+                  <div className={'flex flex-col'}>
+                    <div className={'flex items-center'}>
+                      <a href={`/profile/${el.username}`} className={'flex items-start'}>
+                        <div className={'font-[600] text-[14px] mr-2'}>{el.username}</div>
+                      </a>
+                      <div className={'max-w-[400px] font-lg text-[14px]'}>{el.content}</div>
+                    </div>
+                    <div className={'flex items-center'}>
+                      <div className={'text-gray-500 font-bold text-[12px] mr-4'}>좋아요 {el.like || 0}개</div>
+                      <div className={'text-gray-500 font-bold text-[12px]'}>답글 달기</div>
+                    </div>
+                  </div>
                 </div>
-              }) }
+              })}
 
             </div>
           </div>

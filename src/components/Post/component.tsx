@@ -18,6 +18,7 @@ export default function Post(props: {userid: number, id: number, author: number,
   })
   const [isLiked, setIsLiked] = useState(false)
   const [likes, setLikes] = useState(0)
+  const [comments, setComments] = useState(0)
 
   const getAuthor = async () => {
     axios.get(`/api/user/${props.author}`, {
@@ -43,6 +44,18 @@ export default function Post(props: {userid: number, id: number, author: number,
 
       setIsLiked(likes.includes(props.id))
       setLikes(props.likes || 0)
+    })
+  }
+
+  const getComments = async () => {
+    axios.get(`/api/comment/${props.id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(resp => {
+      const res = resp.data
+      setComments(res.body.length)
     })
   }
 
@@ -73,6 +86,7 @@ export default function Post(props: {userid: number, id: number, author: number,
   useEffect(() => {
     getAuthor()
     getUser()
+    getComments()
   }, [])
 
   return (
@@ -107,6 +121,8 @@ export default function Post(props: {userid: number, id: number, author: number,
         <p className={'font-[700] text-[15px] mr-2 cursor-pointer hover:text-gray-400 transition duration-200'}>{ user.username }</p>
         <p className={'text-[14px]'}>{ props.content }</p>
       </div>
+
+      <div className={'w-full text-gray-500 text-[14px] cursor-pointer'}>댓글 {comments || 0}개 모두 보기</div>
 
       <div className={'w-full flex'}>
         <textarea className={'w-[98%] h-6 focus:h-12 outline-none border-none text-sm mb-4 resize-none'} placeholder={'댓글 달기...'} />
