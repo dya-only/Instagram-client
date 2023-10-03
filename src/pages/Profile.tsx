@@ -11,6 +11,11 @@ import Close from "../assets/svgs/Close.tsx"
 import { Container } from "../components/modal/container/component"
 import { Window } from "../components/modal/window/component"
 import Menu from "../assets/svgs/Menu.tsx"
+import Chat from "../assets/svgs/Chat.tsx"
+import Message from "../assets/svgs/Message.tsx"
+import Bookmark from "../assets/svgs/Bookmark.tsx"
+import HeartFill from "../assets/svgs/HeartFill.tsx"
+import Heart from "../assets/svgs/Heart.tsx"
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -37,6 +42,8 @@ export default function Profile() {
   })
   const [comments, setComments] = useState<any[]>()
   const [isPostDetail, setIsPostDetail] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
+  const [postid, setPostid] = useState(0)
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -81,7 +88,7 @@ export default function Profile() {
           follower: JSON.parse(_resp.data.body.follower),
           following: JSON.parse(_resp.data.body.following)
         })
-
+        
         // Get user posts
         axios.get(`/api/post/only/${_resp.data.body.id}`, {
           headers: {
@@ -121,6 +128,17 @@ export default function Profile() {
   }
 
   const getPostDetail = async (id: number) => {
+    setPostid(id)
+
+    axios.get(`/api/post/contain/${id}/${u}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(resp => {
+      setIsLiked(resp.data.body)
+    })
+
     axios.get(`/api/post/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -146,6 +164,28 @@ export default function Profile() {
         setComments(res.body)
       })
       setIsPostDetail(true)
+    })
+  }
+
+  const AddLike = async () => {
+    axios.patch(`/api/post/like/${postid}/${u}`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(_ => {
+      setIsLiked(true)
+    })
+  }
+
+  const RemoveLike = async () => {
+    axios.delete(`/api/post/like/${postid}/${u}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(_ => {
+      setIsLiked(false)
     })
   }
 
@@ -190,32 +230,45 @@ export default function Profile() {
                 <Menu />
               </div>
 
-              <div className={'m-4 flex items-start'}>
-                <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt='' />
-                <div className={'font-[600] mr-2'}>{user.username}</div>
-                <div className={'max-w-[400px] font-lg text-[14px] mt-[2px]'}>{postDetail.content}</div>
-              </div>
+              <div className={'h-[488px] border-b-[1px]'}>
+                <div className={'m-4 flex items-start'}>
+                  <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt='' />
+                  <div className={'font-[600] mr-2'}>{user.username}</div>
+                  <div className={'max-w-[400px] font-lg text-[14px] mt-[2px]'}>{postDetail.content}</div>
+                </div>
 
-              {comments?.map((el, idx) => {
-                return <div key={idx} className={'m-4 flex items-center'}>
-                  <a href={`/profile/${el.username}`}>
-                    <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.avatar}`} alt='' />
-                  </a>
-                  <div className={'flex flex-col'}>
-                    <div className={'flex items-center'}>
-                      <a href={`/profile/${el.username}`} className={'flex items-start'}>
-                        <div className={'font-[600] text-[14px] mr-2'}>{el.username}</div>
-                      </a>
-                      <div className={'max-w-[400px] font-lg text-[14px]'}>{el.content}</div>
-                    </div>
-                    <div className={'flex items-center'}>
-                      <div className={'text-gray-500 font-bold text-[12px] mr-4'}>좋아요 {el.like || 0}개</div>
-                      <div className={'text-gray-500 font-bold text-[12px]'}>답글 달기</div>
+                {comments?.map((el, idx) => {
+                  return <div key={idx} className={'m-4 flex items-center'}>
+                    <a href={`/profile/${el.username}`}>
+                      <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.avatar}`} alt='' />
+                    </a>
+                    <div className={'flex flex-col'}>
+                      <div className={'flex items-center'}>
+                        <a href={`/profile/${el.username}`} className={'flex items-start'}>
+                          <div className={'font-[600] text-[14px] mr-2'}>{el.username}</div>
+                        </a>
+                        <div className={'max-w-[400px] font-lg text-[14px]'}>{el.content}</div>
+                      </div>
+                      <div className={'flex items-center'}>
+                        <div className={'text-gray-500 font-bold text-[12px] mr-4'}>좋아요 {el.like || 0}개</div>
+                        <div className={'text-gray-500 font-bold text-[12px]'}>답글 달기</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              })}
+                })}
+              </div>
 
+              <div className={'w-full flex justify-between items-center mb-2 p-4'}>
+                <div className={'flex items-center'}>
+                  {isLiked ? <span onClick={RemoveLike}><HeartFill /></span> : <span onClick={AddLike}><Heart w={24} h={24} /></span>}
+                  <span className={'w-4'} />
+                  <Chat w={24} h={24} />
+                  <span className={'w-4'} />
+                  <Message />
+                </div>
+
+                <Bookmark />
+              </div>
             </div>
           </div>
         </Container>
