@@ -7,14 +7,14 @@ import Setting from "../assets/svgs/Setting"
 import ProfileGrid from "../assets/svgs/ProfileGrid"
 import ProfileBookmark from "../assets/svgs/ProfileBookmark"
 import ProfileTag from "../assets/svgs/ProfileTag"
-import Close from "../assets/svgs/Close.tsx";
+import Close from "../assets/svgs/Close.tsx"
 import { Container } from "../components/modal/container/component"
 import { Window } from "../components/modal/window/component"
+import Menu from "../assets/svgs/Menu.tsx"
 
 export default function Profile() {
   const navigate = useNavigate()
   const { username } = useParams()
-
   const [u, setU] = useState<number>()
   const [user, setUser] = useState({
     id: 0,
@@ -32,8 +32,12 @@ export default function Profile() {
     id: 0,
     img: '',
     content: '',
+    likes: 0,
     author: 0,
   })
+  const [comments, setComments] = useState<any[]>()
+  const [commentAvatars, setCommentAvatars] = useState<string[]>([])
+  const [commentUsernames, setCommentUsernames] = useState<string[]>([])
   const [isPostDetail, setIsPostDetail] = useState(false)
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -95,16 +99,13 @@ export default function Profile() {
   }
 
   const uploadAvatar = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files![0].name)
-
     const formData = new FormData()
     formData.append('avatar', e.target.files![0])
     formData.append('id', user.id.toString())
 
     axios.patch('/api/user/avatar', formData, {
       headers: { 'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}` }
-    }).then(resp => {
-      console.log(resp)
+    }).then(_ => {
       window.location.href = `/profile`
     })
   }
@@ -129,13 +130,24 @@ export default function Profile() {
       }
     }).then(resp => {
       const res = resp.data
-      console.log(res)
       setPostDetail({
         id: res.body.id,
         img: res.body.img,
         content: res.body.content,
+        likes: res.body.likes,
         author: res.body.author
       })
+
+      axios.get(`/api/comment/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+        }
+      }).then(resp => {
+        const res = resp.data
+        setComments(res.body)
+      })
+
       setIsPostDetail(true)
     })
   }
@@ -173,10 +185,28 @@ export default function Profile() {
           <div className={'z-20 p-2 flex xl:flex-row lg:flex-row md:flex-col sm:flex-col'}>
             <img src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${postDetail.img}`} alt='' className={'xl:w-[718px] lg:w-[718px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[300px] sm:h-[300px] bg-black flex justify-center items-center object-contain xl:rounded-none lg:rounded-none md:rounded-t-xl sm:rounded-t-xl'} />
             <div className={'xs:w-[500px] lg:w-[500px] md:w-[400px] sm:w-[400px] xl:h-[718px] lg:h-[718px] md:h-[100px] sm:h-[100px] bg-white xl:rounded-r-md xl:rounded-l-none lg:rounded-r-md lg:rounded-l-none md:rounded-b-xl sm:rounded-b-xl'}>
-              <div className={'h-[60px] border-b-[1px] flex justify-between'}>
-                {/*author profile*/}
+              <div className={'h-[60px] border-b-[1px] flex justify-center items-center'}>
+                <div className={'mr-[77%] flex items-center'}>
+                  <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt='' />
+                  <div className={'font-[600]'}>{user.username}</div>
+                </div>
+                <Menu />
               </div>
-              <div className="font-lg m-4">{postDetail.content}</div>
+
+              <div className={'m-4 flex items-start'}>
+                <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt='' />
+                <div className={'font-[600] mr-2'}>{user.username}</div>
+                <div className={'max-w-[400px] font-lg text-[14px] mt-[1px]'}>{postDetail.content}</div>
+              </div>
+
+              { comments?.map((el, idx) => {
+                return <div key={idx} className={'m-4 flex items-start'}>
+                  <img className={'w-[32px] h-[32px] mr-4 object-cover rounded-full'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${'default.jpg'}`} alt='' />
+                  <div className={'font-[600] text-[14px] mr-2'}>{'username'}</div>
+                  <div className={'max-w-[400px] font-lg text-[14px] mt-[1px]'}>{el.content}</div>
+                </div>
+              }) }
+
             </div>
           </div>
         </Container>
@@ -242,8 +272,7 @@ export default function Profile() {
 
           <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
             {posts?.map((el, idx) => (
-              <img key={idx} className={'w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'}
-                src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
+              <img key={idx} className={'z-10 w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
             ))}
           </div>
         </div>

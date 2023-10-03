@@ -1,7 +1,7 @@
 import { styled } from "styled-components"
 
 const StyledContainer = styled.div`
-  z-index: 60;
+  z-index: 50;
   position: fixed;
   width: 100vw;
   height: 100vh;

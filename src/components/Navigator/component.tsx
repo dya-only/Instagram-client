@@ -4,6 +4,7 @@ import axios from "axios"
 
 import Instagram from "../../assets/svgs/Instagram.tsx"
 import Home from "../../assets/svgs/Home.tsx"
+import EmptyHome from '../../assets/svgs/EmptyHome.tsx'
 import Search from "../../assets/svgs/Search.tsx"
 import Explore from "../../assets/svgs/Explore.tsx"
 import Reels from "../../assets/svgs/Reels.tsx"
@@ -17,9 +18,8 @@ import Previous from "../../assets/svgs/previous.tsx"
 import Smile from "../../assets/svgs/smile.tsx"
 import {Container} from "../modal/container/component.tsx"
 import {Window} from "../modal/window/component.tsx"
-
-import Profile from '../../assets/imgs/profile.jpg'
 import Check from '../../assets/imgs/check.png'
+import Close from "../../assets/svgs/Close.tsx"
 
 export default function Navigator() {
   const [w, setW] = useState(658)
@@ -80,6 +80,7 @@ export default function Navigator() {
 
   useEffect(() => {
     userVerify()
+    if (!sessionStorage.getItem('status')) sessionStorage.setItem('status', 'Home')
   }, [])
 
   return (
@@ -88,6 +89,7 @@ export default function Navigator() {
       {/* Upload post window */}
       {createStep ?
         <Container>
+          <div className={'z-50 fixed w-[98%] h-screen mt-8 flex justify-end items-start'} onClick={() => setCreateStep(0)}><Close /></div>
           <Window w={w} h={700}>
             {createStep == 1 ? <div
               className={'w-full h-[42px] flex justify-center items-center font-bold border-b-[1px] border-b-gray-200'}>새
@@ -162,60 +164,60 @@ export default function Navigator() {
 
       {/* Navigatior */}
       <nav
-        className={'fixed bg-white z-50 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
+        className={'fixed bg-white z-40 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
         <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
-          <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'}><Instagram w={103} h={29}/></Link>
-          <Link className={'xs:hidden lg:hidden md:block sm:block'} to={'/'}><InstagramMini/></Link>
+          <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}><Instagram w={103} h={29}/></Link>
+          <Link className={'xs:hidden lg:hidden md:block sm:block'} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}><InstagramMini/></Link>
 
           {/*XS, LG*/}
           <div className="xs:flex lg:flex md:hidden sm:hidden flex-col items-start">
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
-              <span className={'mr-[15px] font-[noto]'}><Home/></span>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}>
+              <span className={'mr-[15px] font-[noto]'}>{ sessionStorage.getItem('status') === 'Home' ? <Home/> : <EmptyHome/> }</span>
               <p className={'font-[500] text-[16px]'}>홈</p>
-            </a>
+            </Link>
 
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Search/></span>
               <p className={'font-[500] text-[16px]'}>검색</p>
-            </a>
+            </Link>
 
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Explore/></span>
               <p className={'font-[500] text-[16px]'}>탐색 탭</p>
-            </a>
+            </Link>
 
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Reels/></span>
               <p className={'font-[500] text-[16px]'}>릴스</p>
-            </a>
+            </Link>
 
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Message/></span>
               <p className={'font-[500] text-[16px]'}>메시지</p>
-            </a>
+            </Link>
 
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={''}>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Heart w={24} h={24}/></span>
               <p className={'font-[500] text-[16px]'}>알림</p>
-            </a>
+            </Link>
 
-            <button className={'flex justify-center items-end ml-2 mb-8'} onClick={() => setCreateStep(1)}>
+            <button className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} onClick={() => setCreateStep(1)}>
               <span className={'mr-[15px] font-[noto]'}><Create/></span>
               <p className={'font-[500] text-[16px]'}>만들기</p>
             </button>
 
-            <a className={'flex justify-center items-end ml-2 mb-8'} href={`/profile/${user.username}`}>
+            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={`/profile/${user.username}`} onClick={() => sessionStorage.setItem('status', 'Profile')}>
               <img className={'w-[24px] h-[24px] mr-[15px] font-[noto] rounded-full object-cover'}
                    src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt=""/>
               <p className={'font-[500] text-[16px]'}>프로필</p>
-            </a>
+            </Link>
           </div>
 
           {/*MD, SM*/}
           <div className="xs:hidden lg:hidden md:block sm:block">
-            <a className={'flex justify-center items-end mb-8'} href={''}>
-              <span className={'font-[noto]'}><Home/></span>
-            </a>
+            <Link className={'flex justify-center items-end mb-8'} to={'/'}>
+              <span className={'font-[noto]'}>{ sessionStorage.getItem('status') === 'Home' ? <Home/> : <EmptyHome/> }</span>
+            </Link>
 
             <a className={'flex justify-center items-end mb-8'} href={''}>
               <span className={'font-[noto]'}><Search/></span>
@@ -241,9 +243,8 @@ export default function Navigator() {
               <span className={'font-[noto]'}><Create/></span>
             </button>
 
-            <Link className={'flex justify-center items-end mb-8'} to={'/profile'}>
-              <img className={'w-[24px] h-[24px] font-[noto] rounded-full object-cover'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`}
-                   alt=''/>
+            <Link className={'flex justify-center items-end mb-8'} to={'/profile'} onClick={() => sessionStorage.setItem('status', 'Profile')}>
+              <img className={'w-[24px] h-[24px] font-[noto] rounded-full object-cover'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt=''/>
             </Link>
           </div>
         </div>

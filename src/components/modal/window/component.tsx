@@ -6,6 +6,7 @@ interface StyledWindowProps {
 }
 
 const StyledWindow = styled.div<StyledWindowProps>`
+  z-index: 60;
   border-radius: 12px;
   background: white;
   width: ${(props) => props.w}px;
