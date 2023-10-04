@@ -130,7 +130,7 @@ export default function Profile() {
   const getPostDetail = async (id: number) => {
     setPostid(id)
 
-    axios.get(`/api/post/contain/${id}/${u}`, {
+    axios.get(`/api/post/contain/${u}/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
