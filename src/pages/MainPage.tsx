@@ -64,7 +64,7 @@ export default function MainPage() {
               return <Post key={idx} userid={userid} id={el.id} author={el.author} content={el.content} img={el.img} likes={el.likes} />
             })}
 
-            <div ref={ref}></div>
+            <div className={'h-[100px]'} ref={ref}></div>
           </div>
         </div>
 
