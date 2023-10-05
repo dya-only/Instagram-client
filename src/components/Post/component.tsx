@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react"
+import { ChangeEvent, Fragment, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
 
@@ -12,6 +12,7 @@ import HeartFill from "../../assets/svgs/HeartFill.tsx"
 import Close from "../../assets/svgs/Close.tsx"
 import { Container2 } from "../modal/container2/component.tsx"
 import BookmarkFill from "../../assets/svgs/BookmarkFill.tsx"
+import BlackSmile from "../../assets/svgs/BlackSmile.tsx"
 
 export default function Post(props: { userid: number, id: number, author: number, content: string, img: string, likes: number }) {
   const [user, setUser] = useState({
@@ -19,12 +20,17 @@ export default function Post(props: { userid: number, id: number, author: number
     username: '',
     avatar: ''
   })
+  const [u, setU] = useState({
+    avatar: '',
+    username: '',
+  })
   const [isLiked, setIsLiked] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [likes, setLikes] = useState(0)
   const [commentsCnt, setCommentsCnt] = useState(0)
   const [comments, setComments] = useState<any[]>()
   const [isPostDetail, setIsPostDetail] = useState(false)
+  const [comment, setComment] = useState<string>('')
 
   const getAuthor = async () => {
     axios.get(`/api/user/${props.author}`, {
@@ -49,6 +55,10 @@ export default function Post(props: { userid: number, id: number, author: number
       const likes = JSON.parse(res.body.likes)
       const bookmarks = JSON.parse(res.body.bookmarks)
 
+      setU({ 
+        avatar: res.body.avatar,
+        username: res.body.username
+       })
       setIsLiked(likes.includes(props.id))
       setLikes(props.likes || 0)
       setIsBookmarked(bookmarks.includes(props.id))
@@ -114,6 +124,26 @@ export default function Post(props: { userid: number, id: number, author: number
     })
   }
 
+  const uploadComment = async () => {
+    if (comment != '') {
+      axios.post('/api/comment', {
+        author: props.userid,
+        postid: props.id,
+        avatar: u.avatar,
+        username: u.username,
+        content: comment,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+        }
+      }).then(_ => {
+        getComments()
+        setComment('')
+      })
+    }
+  }
+
   useEffect(() => {
     getAuthor()
     getUser()
@@ -156,6 +186,7 @@ export default function Post(props: { userid: number, id: number, author: number
                         </a>
                         <div className={'max-w-[400px] font-lg text-[14px]'}>{el.content}</div>
                       </div>
+
                       <div className={'flex items-center'}>
                         <div className={'text-gray-500 font-bold text-[12px] mr-4'}>좋아요 {el.like || 0}개</div>
                         <div className={'text-gray-500 font-bold text-[12px]'}>답글 달기</div>
@@ -174,7 +205,17 @@ export default function Post(props: { userid: number, id: number, author: number
                   <Message />
                 </div>
 
-                { isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span> }
+                {isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span>}
+              </div>
+
+              <div className={'ml-4 mb-4 text-[14px] font-bold'}>좋아요 {likes}개</div>
+
+              <div className={'h-[53px] border-t-[1px] flex justify-between'}>
+                <div className={'flex items-center ml-4'}>
+                  <BlackSmile />
+                  <input type="text" placeholder="댓글 달기..." className={'ml-4 w-[200px] text-[14px] outline-none'} value={comment} onChange={(e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value)} />
+                </div>
+                <button className={comment != '' ? 'mr-4 text-[14px] font-[500] text-[#0095F6]' : 'mr-4 text-[14px] font-[500] text-[#D9ECFF]'} onClick={uploadComment}>게시</button>
               </div>
             </div>
           </div>
@@ -202,7 +243,7 @@ export default function Post(props: { userid: number, id: number, author: number
             <Message />
           </div>
 
-          { isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span> }
+          {isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span>}
         </div>
 
         <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 {likes}개</p>

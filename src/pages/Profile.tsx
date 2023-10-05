@@ -330,7 +330,7 @@ export default function Profile() {
               <div className={'h-[53px] border-t-[1px] flex justify-between'}>
                 <div className={'flex items-center ml-4'}>
                   <BlackSmile />
-                  <input type="text" placeholder="댓글 달기..." className={'ml-4 w-[200px] text-[14px]'} value={comment} onChange={(e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value)} />
+                  <input type="text" placeholder="댓글 달기..." className={'ml-4 w-[200px] text-[14px] outline-none'} value={comment} onChange={(e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value)} />
                 </div>
                 <button className={comment != '' ? 'mr-4 text-[14px] font-[500] text-[#0095F6]' : 'mr-4 text-[14px] font-[500] text-[#D9ECFF]'} onClick={uploadComment}>게시</button>
               </div>
