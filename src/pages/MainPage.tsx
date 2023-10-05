@@ -6,12 +6,14 @@ import Navigator from '../components/navigator/component.tsx'
 import Story from "../components/story/component.tsx"
 import Post from "../components/post/component.tsx"
 import Recommend from "../components/recommned/component.tsx"
+import { useInView } from "react-intersection-observer"
 
 export default function MainPage() {
   const navigate = useNavigate()
-  const [posts, setPosts] = useState([])
+  const [ref, inView] = useInView()
+  const [posts, setPosts] = useState<any[]>([])
   const [userid, setUserid] = useState(0)
-  let next: number = 0
+  const [next, setNext] = useState(0)
 
   const userVerify = async () => {
     axios.post('/api/auth/by-token', { token: sessionStorage.getItem('TOKEN') }, {
@@ -21,7 +23,6 @@ export default function MainPage() {
       if (!res.success) navigate('/login')
 
       setUserid(res.claims.id)
-      getPosts()
     })
   }
 
@@ -33,13 +34,19 @@ export default function MainPage() {
       }
     }).then(resp => {
       const res = resp.data
-      setPosts(res.body)
+      res.body.forEach((el: any) => {
+        setPosts(prev => [...prev, el])
+      })
+
+      setNext(res.next)
     })
   }
 
   useEffect(() => {
     userVerify()
   }, [])
+
+  useEffect(() => { if (inView) getPosts() }, [inView])
 
   return (
     <Fragment>
@@ -56,6 +63,8 @@ export default function MainPage() {
             {posts.map((el: { id: number, author: number, content: string, img: string, likes: number }, idx: number) => {
               return <Post key={idx} userid={userid} id={el.id} author={el.author} content={el.content} img={el.img} likes={el.likes} />
             })}
+
+            <div ref={ref}></div>
           </div>
         </div>
 

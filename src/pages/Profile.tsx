@@ -54,7 +54,7 @@ export default function Profile() {
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const [comment, setComment] = useState<string>('')
-  const [bookmarks, setBookmarks] = useState<any[]>([])
+  const [bookmarks, _] = useState<any[]>([])
 
   const userVerify = async () => {
     // AccessToken verify
@@ -381,14 +381,14 @@ export default function Profile() {
         <div className={'flex flex-col justify-center items-center ml-[250px]'}>
           <div className={'w-[950px] border-b-[1px] -ml-3'} />
           <div className={'flex items-center'}>
-            <div className={`flex items-center h-[50px] border-t-[1px] ${section == 0 ? 'border-black' : 'border-none'} mr-16 cursor-pointer`} onClick={() => setSection(0)}>
+            <div className={`flex items-center h-[50px] border-t-[1px] ${section == 0 ? 'border-black' : 'border-none text-gray-600'} mr-16 cursor-pointer`} onClick={() => setSection(0)}>
               <ProfileGrid />
               <p className={`text-[13px] ${section == 0 ? 'font-semibold' : ''} ml-2`}>게시물</p>
             </div>
 
             <div className={`flex items-center h-[50px] mr-16 cursor-pointer border-t-[1px] ${section == 1 ? 'border-black' : 'border-none'}`} onClick={() => setSection(1)}>
               <ProfileBookmark />
-              <p className={`text-[13px] ${section == 1 ? 'font-semibold' : ''} ml-2 text-gray-600`}>저장됨</p>
+              <p className={`text-[13px] ${section == 1 ? 'font-semibold text-black' : 'text-gray-600'} ml-2`}>저장됨</p>
             </div>
 
             <div className={'flex items-center h-[50px] cursor-pointer'}>
