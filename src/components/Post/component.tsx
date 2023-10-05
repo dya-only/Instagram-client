@@ -9,7 +9,6 @@ import Message from "../../assets/svgs/Message.tsx"
 import Bookmark from "../../assets/svgs/Bookmark.tsx"
 import Emoji from "../../assets/svgs/Emoji.tsx"
 import HeartFill from "../../assets/svgs/HeartFill.tsx"
-import { Container } from "../modal/container/component.tsx"
 import Close from "../../assets/svgs/Close.tsx"
 import { Container2 } from "../modal/container2/component.tsx"
 

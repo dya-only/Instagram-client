@@ -16,6 +16,7 @@ import Message from "../assets/svgs/Message.tsx"
 import Bookmark from "../assets/svgs/Bookmark.tsx"
 import HeartFill from "../assets/svgs/HeartFill.tsx"
 import Heart from "../assets/svgs/Heart.tsx"
+import BlackSmile from "../assets/svgs/BlackSmile.tsx"
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -32,6 +33,10 @@ export default function Profile() {
     follower: 0,
     following: 0
   })
+  const [uUser, setUuser] = useState({
+    avatar: '',
+    username: ''
+  })
   const [posts, setPosts] = useState<any[]>()
   const [postDetail, setPostDetail] = useState({
     id: 0,
@@ -42,10 +47,12 @@ export default function Profile() {
   })
   const [comments, setComments] = useState<any[]>()
   const [isPostDetail, setIsPostDetail] = useState(false)
+  const [likes, setLikes] = useState(0)
   const [isLiked, setIsLiked] = useState(false)
   const [postid, setPostid] = useState(0)
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+  const [comment, setComment] = useState<string>('')
 
   const userVerify = async () => {
     // AccessToken verify
@@ -67,6 +74,17 @@ export default function Profile() {
       }
 
       setU(res.claims.id)
+      axios.get(`/api/user/${res.claims.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+        }
+      }).then(resp => {
+        setUuser({
+          avatar: resp.data.body.avatar,
+          username: resp.data.body.username
+        })
+      })
 
       // Get user profile information
       axios.get(`/api/user/name/${username}`, {
@@ -153,6 +171,7 @@ export default function Profile() {
         likes: res.body.likes,
         author: res.body.author
       })
+      setLikes(res.body.likes)
 
       axios.get(`/api/comment/${id}`, {
         headers: {
@@ -175,6 +194,7 @@ export default function Profile() {
       }
     }).then(_ => {
       setIsLiked(true)
+      setLikes(likes + 1)
     })
   }
 
@@ -186,7 +206,28 @@ export default function Profile() {
       }
     }).then(_ => {
       setIsLiked(false)
+      setLikes(likes - 1)
     })
+  }
+
+  const uploadComment = async () => {
+    if (comment != '') {
+      axios.post('/api/comment', {
+        author: u,
+        postid: postid,
+        avatar: uUser.avatar,
+        username: uUser.username,
+        content: comment,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+        }
+      }).then(_ => {
+        getPostDetail(postid)
+        setComment('')
+      })
+    }
   }
 
   useEffect(() => {
@@ -258,7 +299,7 @@ export default function Profile() {
                 })}
               </div>
 
-              <div className={'w-full flex justify-between items-center mb-2 p-4'}>
+              <div className={'w-full flex justify-between items-center p-4'}>
                 <div className={'flex items-center'}>
                   {isLiked ? <span onClick={RemoveLike}><HeartFill /></span> : <span onClick={AddLike}><Heart w={24} h={24} /></span>}
                   <span className={'w-4'} />
@@ -268,6 +309,15 @@ export default function Profile() {
                 </div>
 
                 <Bookmark />
+              </div>
+              <div className={'ml-4 mb-6 text-[14px] font-bold'}>좋아요 {likes}개</div>
+
+              <div className={'h-[53px] border-t-[1px] flex justify-between'}>
+                <div className={'flex items-center ml-4'}>
+                  <BlackSmile />
+                  <input type="text" placeholder="댓글 달기..." className={'ml-4 w-[200px] text-[14px]'} value={comment} onChange={(e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value)} />
+                </div>
+                <button className={comment != '' ? 'mr-4 text-[14px] font-[500] text-[#0095F6]' : 'mr-4 text-[14px] font-[500] text-[#D9ECFF]'} onClick={uploadComment}>게시</button>
               </div>
             </div>
           </div>
