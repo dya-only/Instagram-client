@@ -1,5 +1,5 @@
-import {Fragment, useEffect, useState} from "react"
-import {useNavigate} from "react-router-dom"
+import { Fragment, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 import Navigator from '../components/navigator/component.tsx'
@@ -14,8 +14,8 @@ export default function MainPage() {
   let next: number = 0
 
   const userVerify = async () => {
-    axios.post('/api/auth/by-token', {token: sessionStorage.getItem('TOKEN')}, {
-      headers: {'Content-Type': 'application/json'}
+    axios.post('/api/auth/by-token', { token: sessionStorage.getItem('TOKEN') }, {
+      headers: { 'Content-Type': 'application/json' }
     }).then(resp => {
       const res = resp.data
       if (!res.success) navigate('/login')
@@ -26,7 +26,7 @@ export default function MainPage() {
   }
 
   const getPosts = async () => {
-    axios.get(`/api/post/recommend/${next}`, { 
+    axios.get(`/api/post/recommend/${next}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
@@ -43,7 +43,7 @@ export default function MainPage() {
 
   return (
     <Fragment>
-      <Navigator/>
+      <Navigator />
 
       <div className={'w-screen flex justify-center items-start'}>
         <div
@@ -53,13 +53,13 @@ export default function MainPage() {
           </div>
 
           <div className={'w-full flex flex-col justify-start items-center mt-6'}>
-            { posts.map((el: { id: number, author: number, content: string, img: string, likes: number }, idx: number) => {
+            {posts.map((el: { id: number, author: number, content: string, img: string, likes: number }, idx: number) => {
               return <Post key={idx} userid={userid} id={el.id} author={el.author} content={el.content} img={el.img} likes={el.likes} />
-            }) }
+            })}
           </div>
         </div>
 
-        <Recommend/>
+        <Recommend />
       </div>
     </Fragment>
   )

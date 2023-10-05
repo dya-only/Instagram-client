@@ -164,7 +164,7 @@ export default function Navigator() {
 
       {/* Navigatior */}
       <nav
-        className={'fixed bg-white z-40 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
+        className={'fixed bg-white z-30 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center xs:w-[244px] lg:w-[244px] md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300'}>
         <div className="flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
           <Link className={'xs:block lg:block md:hidden sm:hidden'} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}><Instagram w={103} h={29}/></Link>
           <Link className={'xs:hidden lg:hidden md:block sm:block'} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}><InstagramMini/></Link>
@@ -206,11 +206,11 @@ export default function Navigator() {
               <p className={'font-[500] text-[16px]'}>만들기</p>
             </button>
 
-            <Link className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} to={`/profile/${user.username}`} onClick={() => sessionStorage.setItem('status', 'Profile')}>
+            <a className={'flex justify-start items-end rounded-lg p-3 mb-4 w-[210px] hover:bg-gray-100'} href={`/profile/${user.username}`} onClick={() => sessionStorage.setItem('status', 'Profile')}>
               <img className={'w-[24px] h-[24px] mr-[15px] font-[noto] rounded-full object-cover'}
                    src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt=""/>
               <p className={'font-[500] text-[16px]'}>프로필</p>
-            </Link>
+            </a>
           </div>
 
           {/*MD, SM*/}
