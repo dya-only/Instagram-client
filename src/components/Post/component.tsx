@@ -11,6 +11,7 @@ import Emoji from "../../assets/svgs/Emoji.tsx"
 import HeartFill from "../../assets/svgs/HeartFill.tsx"
 import Close from "../../assets/svgs/Close.tsx"
 import { Container2 } from "../modal/container2/component.tsx"
+import BookmarkFill from "../../assets/svgs/BookmarkFill.tsx"
 
 export default function Post(props: { userid: number, id: number, author: number, content: string, img: string, likes: number }) {
   const [user, setUser] = useState({
@@ -19,6 +20,7 @@ export default function Post(props: { userid: number, id: number, author: number
     avatar: ''
   })
   const [isLiked, setIsLiked] = useState(false)
+  const [isBookmarked, setIsBookmarked] = useState(false)
   const [likes, setLikes] = useState(0)
   const [commentsCnt, setCommentsCnt] = useState(0)
   const [comments, setComments] = useState<any[]>()
@@ -44,10 +46,12 @@ export default function Post(props: { userid: number, id: number, author: number
       }
     }).then(resp => {
       const res = resp.data
-      const likes = res.body.likes
+      const likes = JSON.parse(res.body.likes)
+      const bookmarks = JSON.parse(res.body.bookmarks)
 
       setIsLiked(likes.includes(props.id))
       setLikes(props.likes || 0)
+      setIsBookmarked(bookmarks.includes(props.id))
     })
   }
 
@@ -85,6 +89,28 @@ export default function Post(props: { userid: number, id: number, author: number
     }).then(_ => {
       setIsLiked(false)
       setLikes(likes - 1)
+    })
+  }
+
+  const AddBookmark = async () => {
+    axios.patch(`/api/post/bookmark/${props.id}/${props.userid}`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(_ => {
+      setIsBookmarked(true)
+    })
+  }
+
+  const RemoveBookmark = async () => {
+    axios.delete(`/api/post/bookmark/${props.id}/${props.userid}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(_ => {
+      setIsBookmarked(false)
     })
   }
 
@@ -148,7 +174,7 @@ export default function Post(props: { userid: number, id: number, author: number
                   <Message />
                 </div>
 
-                <Bookmark />
+                { isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span> }
               </div>
             </div>
           </div>
@@ -176,7 +202,7 @@ export default function Post(props: { userid: number, id: number, author: number
             <Message />
           </div>
 
-          <Bookmark />
+          { isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span> }
         </div>
 
         <p className={'w-full font-[700] text-[14px] mb-1 cursor-pointer'}>좋아요 {likes}개</p>

@@ -21,6 +21,7 @@ import BlackSmile from "../assets/svgs/BlackSmile.tsx"
 export default function Profile() {
   const navigate = useNavigate()
   const { username } = useParams()
+  const [section, setSection] = useState(0)
   const [u, setU] = useState<number>()
   const [user, setUser] = useState({
     id: 0,
@@ -53,6 +54,7 @@ export default function Profile() {
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const [comment, setComment] = useState<string>('')
+  const [bookmarks, setBookmarks] = useState<any[]>([])
 
   const userVerify = async () => {
     // AccessToken verify
@@ -106,7 +108,7 @@ export default function Profile() {
           follower: JSON.parse(_resp.data.body.follower),
           following: JSON.parse(_resp.data.body.following)
         })
-        
+
         // Get user posts
         axios.get(`/api/post/only/${_resp.data.body.id}`, {
           headers: {
@@ -116,6 +118,19 @@ export default function Profile() {
         }).then(_resp => {
           const res = _resp.data
           setPosts(res.body)
+        })
+
+        // Get user bookmarks
+        JSON.parse(_resp.data.body.bookmarks).forEach((el: number) => {
+          axios.get(`/api/post/${el}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+            }
+          }).then(_resp => {
+            const res = _resp.data
+            bookmarks.push(res.body)
+          })
         })
       })
     })
@@ -148,7 +163,7 @@ export default function Profile() {
   const getPostDetail = async (id: number) => {
     setPostid(id)
 
-    axios.get(`/api/post/contain/${u}/${id}`, {
+    axios.get(`/api/post/liked/${u}/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
@@ -366,14 +381,14 @@ export default function Profile() {
         <div className={'flex flex-col justify-center items-center ml-[250px]'}>
           <div className={'w-[950px] border-b-[1px] -ml-3'} />
           <div className={'flex items-center'}>
-            <div className={'flex items-center h-[50px] border-t-[1px] border-black mr-16 cursor-pointer'}>
+            <div className={`flex items-center h-[50px] border-t-[1px] ${section == 0 ? 'border-black' : 'border-none'} mr-16 cursor-pointer`} onClick={() => setSection(0)}>
               <ProfileGrid />
-              <p className={'text-[13px] font-semibold ml-2'}>게시물</p>
+              <p className={`text-[13px] ${section == 0 ? 'font-semibold' : ''} ml-2`}>게시물</p>
             </div>
 
-            <div className={'flex items-center h-[50px] mr-16 cursor-pointer'}>
+            <div className={`flex items-center h-[50px] mr-16 cursor-pointer border-t-[1px] ${section == 1 ? 'border-black' : 'border-none'}`} onClick={() => setSection(1)}>
               <ProfileBookmark />
-              <p className={'text-[13px] font-semibold ml-2 text-gray-600'}>저장됨</p>
+              <p className={`text-[13px] ${section == 1 ? 'font-semibold' : ''} ml-2 text-gray-600`}>저장됨</p>
             </div>
 
             <div className={'flex items-center h-[50px] cursor-pointer'}>
@@ -382,11 +397,18 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
-            {posts?.map((el, idx) => (
-              <img key={idx} className={'z-10 w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
-            ))}
-          </div>
+          {section == 0 ?
+            <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
+              {posts?.map((el, idx) => (
+                <img key={idx} className={'z-10 w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
+              ))}
+            </div>
+            : <div className={'w-[960px] flex justify-start items-start flex-wrap'}>
+              {bookmarks?.map((el, idx) => (
+                <img key={idx} className={'z-10 w-[309px] h-[309px] object-cover mr-2 mb-2 hover:brightness-90 cursor-pointer'} src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${el.img}`} alt={''} onClick={() => getPostDetail(el.id)} />
+              ))}
+            </div>
+          }
         </div>
       </div>
     </Fragment>
