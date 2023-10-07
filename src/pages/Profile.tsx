@@ -17,6 +17,7 @@ import Bookmark from "../assets/svgs/Bookmark.tsx"
 import HeartFill from "../assets/svgs/HeartFill.tsx"
 import Heart from "../assets/svgs/Heart.tsx"
 import BlackSmile from "../assets/svgs/BlackSmile.tsx"
+import BookmarkFill from "../assets/svgs/BookmarkFill.tsx"
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -48,13 +49,14 @@ export default function Profile() {
   })
   const [comments, setComments] = useState<any[]>()
   const [isPostDetail, setIsPostDetail] = useState(false)
-  const [likes, setLikes] = useState(0)
+  const [likes, setLikes] = useState<number>(0)
   const [isLiked, setIsLiked] = useState(false)
   const [postid, setPostid] = useState(0)
   const [ProfileImgModal, setProfileImgModal] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const [comment, setComment] = useState<string>('')
   const [bookmarks, _] = useState<any[]>([])
+  const [isBookmarked, setIsBookmarked] = useState(false)
 
   const userVerify = async () => {
     // AccessToken verify
@@ -172,6 +174,15 @@ export default function Profile() {
       setIsLiked(resp.data.body)
     })
 
+    axios.get(`/api/post/bookmarked/${u}/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(resp => {
+      setIsBookmarked(resp.data.body)
+    })
+
     axios.get(`/api/post/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -245,6 +256,28 @@ export default function Profile() {
     }
   }
 
+  const AddBookmark = async () => {
+    axios.patch(`/api/post/bookmark/${postid}/${u}`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(_ => {
+      setIsBookmarked(true)
+    })
+  }
+
+  const RemoveBookmark = async () => {
+    axios.delete(`/api/post/bookmark/${postid}/${u}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('TOKEN')}`
+      }
+    }).then(_ => {
+      setIsBookmarked(false)
+    })
+  }
+
   useEffect(() => {
     userVerify()
   }, [])
@@ -306,7 +339,7 @@ export default function Profile() {
                         <div className={'max-w-[400px] font-lg text-[14px]'}>{el.content}</div>
                       </div>
                       <div className={'flex items-center'}>
-                        <div className={'text-gray-500 font-bold text-[12px] mr-4'}>좋아요 {el.like || 0}개</div>
+                        <div className={'text-gray-500 font-bold text-[12px] mr-4'}>좋아요 {el.likes || 0}개</div>
                         <div className={'text-gray-500 font-bold text-[12px]'}>답글 달기</div>
                       </div>
                     </div>
@@ -323,7 +356,7 @@ export default function Profile() {
                   <Message />
                 </div>
 
-                <Bookmark />
+                {isBookmarked ? <span onClick={RemoveBookmark}><BookmarkFill /></span> : <span onClick={AddBookmark}><Bookmark /></span>}
               </div>
               <div className={'ml-4 mb-6 text-[14px] font-bold'}>좋아요 {likes}개</div>
 
@@ -386,10 +419,12 @@ export default function Profile() {
               <p className={`text-[13px] ${section == 0 ? 'font-semibold' : ''} ml-2`}>게시물</p>
             </div>
 
-            <div className={`flex items-center h-[50px] mr-16 cursor-pointer border-t-[1px] ${section == 1 ? 'border-black' : 'border-none'}`} onClick={() => setSection(1)}>
-              <ProfileBookmark />
-              <p className={`text-[13px] ${section == 1 ? 'font-semibold text-black' : 'text-gray-600'} ml-2`}>저장됨</p>
-            </div>
+            { user.id === u ?
+              <div className={`flex items-center h-[50px] mr-16 cursor-pointer border-t-[1px] ${section == 1 ? 'border-black' : 'border-none'}`} onClick={() => setSection(1)}>
+                <ProfileBookmark />
+                <p className={`text-[13px] ${section == 1 ? 'font-semibold text-black' : 'text-gray-600'} ml-2`}>저장됨</p>
+              </div>
+            : null } 
 
             <div className={'flex items-center h-[50px] cursor-pointer'}>
               <ProfileTag />
