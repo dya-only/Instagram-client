@@ -164,7 +164,7 @@ export default function Navigator() {
 
       {/* Navigatior */}
       <nav
-        className={`fixed bg-white z-30 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center trnasition-all duration-300 xs:${isSearch ? 'w-[72px]' : 'w-[244px]'} lg:${isSearch ? 'w-[72px]' : 'w-[244px]'} md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300`}>
+        className={`fixed bg-white z-30 flex flex-col justify-between xs:items-start lg:items-start md:items-center sm:items-center trnasition-all duration-300 ${isSearch ? 'xs:w-[72px]' : 'xs:w-[244px]'} ${isSearch ? 'lg:w-[72px]' : 'lg:w-[244px]'} md:w-[72px] p-4 xs:h-screen lg:h-screen md:h-screen sm:w-screen sm:h-[72px] xs:border-r-[1px] lg:border-r-[1px] md:border-r-[1px] sm:border-b-[1px] border-gray-300`}>
         <div className="z-30 flex flex-col xs:items-start lg:items-start md:items-center sm:items-center">
           { isSearch ?
             <Link className={'block mt-[5px]'} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}><InstagramMini /></Link>
