@@ -174,42 +174,42 @@ export default function Navigator() {
 
           {/*XS, LG*/}
           <div className="z-30 xs:flex lg:flex md:hidden sm:hidden flex-col items-start">
-            <Link className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}>
+            <Link className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={'/'} onClick={() => sessionStorage.setItem('status', 'Home')}>
               <span className={'mr-[15px] font-[noto]'}>{sessionStorage.getItem('status') === 'Home' ? <Home /> : <EmptyHome />}</span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>홈</p> }
             </Link>
 
-            <div className={`cursor-pointer flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} onClick={() => setIsSearch(isSearch ? false : true)}>
+            <div className={`cursor-pointer flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} onClick={() => setIsSearch(isSearch ? false : true)}>
               <span className={'mr-[15px] font-[noto]'}><Search /></span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>검색</p> }
             </div>
 
-            <Link className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
+            <Link className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Explore /></span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>탐색 탭</p> }
             </Link>
 
-            <Link className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
+            <Link className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Reels /></span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>릴스</p> }
             </Link>
 
-            <Link className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
+            <Link className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Message /></span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>메시지</p> }
             </Link>
 
-            <Link className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
+            <Link className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} to={''}>
               <span className={'mr-[15px] font-[noto]'}><Heart w={24} h={24} /></span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>알림</p> }
             </Link>
 
-            <button className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} onClick={() => setCreateStep(1)}>
+            <button className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} onClick={() => setCreateStep(1)}>
               <span className={'mr-[15px] font-[noto]'}><Create /></span>
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>만들기</p> }
             </button>
 
-            <a className={`flex justify-start items-end rounded-lg p-3 mb-4 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} href={`/profile/${user.username}`} onClick={() => sessionStorage.setItem('status', 'Profile')}>
+            <a className={`flex justify-start items-end rounded-lg p-3 mb-2 ${isSearch ? 'w-[50px]' : 'w-[210px]'} hover:bg-gray-100`} href={`/profile/${user.username}`} onClick={() => sessionStorage.setItem('status', 'Profile')}>
               <img className={`w-[24px] h-[24px] ${isSearch ? '': 'mr-[15px]'} font-[noto] rounded-full object-cover`}
                 src={`https://insta-clone-s3-bucket.s3.ap-northeast-2.amazonaws.com/${user.avatar}`} alt="" />
               { isSearch ? null : <p className={'font-[500] text-[16px]'}>프로필</p> }
@@ -257,8 +257,13 @@ export default function Navigator() {
           { isSearch ? null : <p className={'font-[500] w-[100px] text-[16px] ml-[15px] xs:block lg:block md:hidden sm:hidden'}>더보기</p> }
         </a>
 
-        <div className={`transition-all duration-300 fixed ${isSearch ? 'ml-14' : '-ml-[410px]'} -mt-4 w-[397px] h-screen rounded-r-3xl border-[1px] border-gray-200 bg-white drop-shadow-2xl`}>
-          검색
+        <div className={`transition-all duration-300 fixed flex flex-col items-center ${isSearch ? 'ml-14' : '-ml-[450px]'} -mt-4 w-[397px] h-screen rounded-r-3xl border-[1px] border-gray-200 bg-white drop-shadow-2xl`}>
+          <h2 className={'w-[350px] pt-6 mb-8 font-bold text-2xl'}>검색</h2>
+          <input type="text" className={'w-[360px] h-[40px] pl-4 mb-8 rounded-lg bg-[#efefef]'} placeholder='검색' />
+          
+          <div className={'border-[0.9px] border-gray-200 w-[100%]'} />
+
+          <div className={'pt-6 pl-6 w-[370px] font-bold'}>최근 검색 항목</div>
         </div>
       </nav>
     </Fragment>
